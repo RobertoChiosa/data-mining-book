@@ -1,0 +1,60 @@
+```{r, echo = FALSE, include = FALSE}
+source("./scripts/packages.R") # load necessary packages
+df <- read.csv("./data/data_week.csv", header = TRUE, sep = ",", dec = ".", check.names = FALSE)
+source("./scripts/boxplot_legend.R")
+```
+
+
+# Building related data
+
+Data are usually described by a set of features also called variables, attributes or dimensions.
+
+- Categorical: Features whose values are taken from a defined set of values.
+- Numerical: Features whose values are continuous or integer-valued. They are represented by numbers and possess most of the properties of numbers.
+
+- continuous
+- discrete
+
+categorical variables numerical variables
+
+- whole building
+- meter level
+- system level
+
+- dynamic
+- static
+
+## influencing variables
+## Time series
+
+## Visualizations
+
+### Box plots {#sec:boxplots}
+
+```{r, hide = TRUE}
+p1<- df %>%
+  ggplot() +
+  geom_histogram(aes(x = Total_Power, y = ..density..),
+                 colour = "black", fill = "white", 
+                 binwidth = 40, na.rm = T) +
+  geom_density(aes(x = Total_Power, y = ..density..),
+               alpha = .2, fill = "#FF6666", na.rm = T) + 
+  stat_boxplot(aes(x = Total_Power, y = -0.0025), 
+               geom ='errorbar', width = 0.0025) +
+  geom_boxplot(aes(x = Total_Power, y = -0.0025), 
+               fill = "lightgrey", width = 0.0025, na.rm = T) +
+  geom_point(aes(x = mean(Total_Power, na.rm = T), y = -0.0025), 
+             shape = 3, size = 1.5) +
+  labs( x = "Electrical load [kW]" , y = "Density [-]") + 
+  theme_classic() + coord_flip()
+
+p2 <- ggplot_box_legend()
+
+ggarrange(p1, p2, nrow = 1)
+
+```
+
+### scatter plots
+### carpet plots
+### calendar plots
+

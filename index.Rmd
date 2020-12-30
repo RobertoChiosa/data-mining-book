@@ -1,9 +1,11 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAME HERE"
+title: "Data mining methods for building energy data"
+author: "Roberto Chiosa"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
-# Down the rabbit-hole
+The aim of this work is to describe some useful data analyses methods useful for in the field of building data analytics.
+
+# Author {-}
 

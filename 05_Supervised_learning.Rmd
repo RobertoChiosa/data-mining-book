@@ -1,0 +1,8 @@
+# supervised learning
+
+## classification
+## regression
+
+## forecasting
+## benchmarking
+## artificial neural network
