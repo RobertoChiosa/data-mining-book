@@ -1,19 +1,10 @@
+
 source("./scripts/packages.R") # load necessary packages
+
+## create raw weekly data
 df <- read.csv("./data/data2.csv", header = TRUE, sep = ",", dec = ".", check.names = FALSE)
 
-df <- df %>%
-  mutate(
-    Date_Time = as.POSIXct(Date_Time , format = "%Y-%m-%d %H:%M:%S" , tz = "Europe/Rome"), # depend on selected timezone
-    Week_Day = wday(Date_Time, label = TRUE, week_start = getOption("lubridate.week.start", 1)), # week start on monday
-    Month = month(Date_Time, label = TRUE), # ordered factor
-    Month_Day = mday(Date_Time), # numeric
-    Year = as.ordered(year(Date_Time)), # ordered factor
-    Year_Day = mday(Date_Time), # numeric
-    Hour = hour(Date_Time), # numeric
-    Minute = minute(Date_Time), # numeric
-    min_dec = as.numeric(paste(Hour, Minute*100/60, sep = ".")) # numeric
-  ) 
-
+df <- df %>% select(Date_Time, Total_Power)
 # subset
 df1 <- df[c(117313:117984),] 
 df1$Type <- "Correct"

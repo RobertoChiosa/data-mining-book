@@ -11,20 +11,20 @@
   <meta property="og:title" content="Chapter 2 Data cleaning | Data mining methods for building energy data" />
   <meta property="og:type" content="book" />
   
+  <meta property="og:image" content="images/logo-black.png" />
   
-  
-  
+  <meta name="github-repo" content="https://github.com/RobertoChiosa/APPUNTI" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 2 Data cleaning | Data mining methods for building energy data" />
   
   
-  
+  <meta name="twitter:image" content="images/logo-black.png" />
 
 <meta name="author" content="Roberto Chiosa" />
 
 
-<meta name="date" content="2020-12-30" />
+<meta name="date" content="2020-12-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -180,8 +180,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="supervised-learning.html"><a href="supervised-learning.html#benchmarking"><i class="fa fa-check"></i><b>5.4</b> benchmarking</a></li>
 <li class="chapter" data-level="5.5" data-path="supervised-learning.html"><a href="supervised-learning.html#artificial-neural-network"><i class="fa fa-check"></i><b>5.5</b> artificial neural network</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a></li>
+<li class="chapter" data-level="B" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>B</b> Appendix B</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -209,26 +213,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Modification of the building usage;</li>
 <li>Catastrophic events.</li>
 </ul>
-<p>Thus it is necessary to undergo a data preparation process that is usually the most time consuming task but also the most important.</p>
-<p>The process of “fixing” the data is called data cleaning and the main objective is to manage missing values, resolve inconsistencies, and detect and remove outliers.</p>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Thus it is necessary to undergo a data preparation process that is usually the most time consuming task but also the most important. The process of “fixing” the data is called data cleaning and the main objective is to manage missing values, resolve inconsistencies, and detect and remove outliers.</p>
+<p>In the following, we will use as an example a portion of the dataset <code>df</code>. In particular we will consider just one week, shown in Figure <a href="data-cleaning.html#fig:scatter-week-raw">2.1</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:scatter-week-raw"></span>
+<img src="bookdownproj_files/figure-html/scatter-week-raw-1.png" alt="Example of not cleaned dataset." width="672" />
+<p class="caption">
+Figure 2.1: Example of not cleaned dataset.
+</p>
+</div>
 <div id="inconsistences" class="section level2">
 <h2><span class="header-section-number">2.1</span> Inconsistences</h2>
+<p>An obvious inconsistency is defined by <span class="citation">Edwin and Mark (<a href="#ref-Paper2013" role="doc-biblioref">2013</a>)</span> as:</p>
+<blockquote>
+<p>A record that contains a value or combination of values that cannot correspond to a real-world situation.</p>
+</blockquote>
+<p>For example measures related to an electrical load cannot be negative infinite or not a real number, and any of those values can be easely detected and removed.</p>
+<p>However a particular knowledge of the measured data and systems is necessary to correctly evaluate inconsistences, which are not absolute but can vary depending on the situation.</p>
+<p>Such knowledge can be expressed as rules or constraints. In our case study since the measures value refers to electrical load (i.e. power absorbed by the utility) we know a priori that any negative value can be marked as inconsistence.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data-cleaning.html#cb1-1"></a>inconsistences &lt;-<span class="st"> </span>df<span class="op">$</span>Total_Power[df<span class="op">$</span>Total_Power <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>]</span></code></pre></div>
+<p>The electrical load dataset contains 3 inconsistences (-100 kW, -110 kW, -100 kW). Once identified they can be removed by substituting NA value.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data-cleaning.html#cb2-1"></a>df<span class="op">$</span>Total_Power[<span class="kw">match</span>(inconsistences, df<span class="op">$</span>Total_Power)] &lt;-<span class="st"> </span><span class="ot">NA</span></span></code></pre></div>
 </div>
 <div id="outliers" class="section level2">
 <h2><span class="header-section-number">2.2</span> Outliers</h2>
-<p>A general definition of outlier is the following</p>
+<p>A general definition of outlier is provided by <span class="citation">Capozzoli, Cerquitelli, and Piscitelli (<a href="#ref-Capozzoli2016" role="doc-biblioref">2016</a>)</span>:</p>
 <blockquote>
 <p>“Outliers are records that appear to deviate significantly from other elements in
 the sample in which they occur. Outlier can be also defined as an observation (or subset of observations) that appears to be inconsistent with the remainder of that set of data.”</p>
-<p>— Enhancing energy efficiency in buildings through innovative data analytics technologies Capozzoli</p>
 </blockquote>
-<p>In time series analysis the outliers are defied as:</p>
+<p>In time series analysis, <span class="citation">Fan et al. (<a href="#ref-Fan2015" role="doc-biblioref">2015</a>)</span> defines the outliers as:</p>
 <blockquote>
 <p>"Observations unlikely to occur given the variance of the observations of the rest of the time series</p>
-<p>— [C. Fan, F. Xiao, H. Madsen, and D. Wang, «Temporal knowledge discovery in big BAS data for building energy management», Energy and Buildings] .</p>
 </blockquote>
-<p>They can be distinguished into</p>
+<p>The so called outliers can be distinguished into:</p>
 <ul>
 <li>Punctual outliers</li>
 <li>Sequence outliers.</li>
@@ -258,7 +275,7 @@ R = [Q_2 − k \text{IQR}, Q_3 + k \text{IQR}]
 <span id="cb3-7"><a href="data-cleaning.html#cb3-7"></a>Upper_bound =<span class="st"> </span>Q2 <span class="op">+</span><span class="st"> </span>k<span class="op">*</span>Iqr</span></code></pre></div>
 <p>It is possible to identify the outliers by calculating the previous statistics and setting manually the range limits or by using the <code>boxplot.stats</code> function which, given the <span class="math inline">\(k\)</span> coefficient, returns a list of values in which and <code>$out</code> is a vector of all the detected outliers.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-cleaning.html#cb4-1"></a>outliers &lt;-<span class="st"> </span><span class="kw">boxplot.stats</span>(df<span class="op">$</span>Total_Power, <span class="dt">coef =</span> k)<span class="op">$</span>out</span></code></pre></div>
-<p>In the electrical load dataset, for the variable <code>Total Power</code>, the following values are outliers: 1933 kW, 1200 kW). Once identified it can be removed by substituting NA value.</p>
+<p>The electrical load dataset contains 2 outliers (1933 kW, 1200 kW). Once identified they can be removed by substituting NA value.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-cleaning.html#cb5-1"></a>df<span class="op">$</span>Total_Power[<span class="kw">match</span>(outliers, df<span class="op">$</span>Total_Power)] &lt;-<span class="st"> </span><span class="ot">NA</span></span></code></pre></div>
 </div>
 <div id="z-score-method-for-punctual-outlier-identification" class="section level3">
@@ -274,6 +291,8 @@ This process allows simplifying the analysis through the use of Z-scores, which 
 </div>
 <div id="missing-values" class="section level2">
 <h2><span class="header-section-number">2.3</span> Missing values</h2>
+<p>A missing value consists in the lack of a given value or attribute in a dataset</p>
+<p>In datasets the placeholder for missing value is NA</p>
 <p>Common methods to handle missing values are global constant, local constant, moving average and interpolation.</p>
 <div id="global-constant-method" class="section level3">
 <h3><span class="header-section-number">2.3.1</span> Global constant method</h3>
@@ -282,10 +301,27 @@ This process allows simplifying the analysis through the use of Z-scores, which 
 <div id="local-constant-method" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Local constant method</h3>
 <p>substitute the missing values in the data with a values calculated locally. This process is carried out through Lookup Tables.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="data-cleaning.html#cb6-1"></a><span class="kw">data.frame</span>(<span class="dt">Day =</span> <span class="kw">c</span>(<span class="st">&quot;Mon&quot;</span>, <span class="st">&quot;Tue&quot;</span>), <span class="dt">Mean =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
-<pre><code>##   Day Mean
-## 1 Mon    1
-## 2 Tue    2</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="data-cleaning.html#cb6-1"></a><span class="kw">data.frame</span>(<span class="dt">Day =</span> <span class="kw">c</span>(<span class="st">&quot;Mon&quot;</span>, <span class="st">&quot;Tue&quot;</span>), <span class="dt">Mean =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb6-2"><a href="data-cleaning.html#cb6-2"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">caption =</span> <span class="st">&quot;Raw gapminder data for Australia.&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-7">Table 2.1: </span>Raw gapminder data for Australia.</caption>
+<thead>
+<tr class="header">
+<th align="left">Day</th>
+<th align="right">Mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mon</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Tue</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="moving-average-or-simple-moving-average-sma" class="section level3">
 <h3><span class="header-section-number">2.3.3</span> Moving Average or Simple Moving Average (SMA)</h3>
@@ -306,6 +342,18 @@ y = \frac{1}{N}\sum_{i=1}^n{y_{-i}}
 \]</span></p>
 
 </div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Capozzoli2016">
+<p>Capozzoli, Alfonso, T. Cerquitelli, and Marco Savino Piscitelli. 2016. <em>Enhancing energy efficiency in buildings through innovative data analytics technologies</em>. <a href="https://doi.org/10.1016/B978-0-12-803663-1.00011-5">https://doi.org/10.1016/B978-0-12-803663-1.00011-5</a>.</p>
+</div>
+<div id="ref-Paper2013">
+<p>Edwin, De Jonge, and Van der Loo Mark. 2013. “An introduction to data cleaning with R the policies of Statistics Netherlands.”</p>
+</div>
+<div id="ref-Fan2015">
+<p>Fan, Cheng, Fu Xiao, Henrik Madsen, and Dan Wang. 2015. “Temporal knowledge discovery in big BAS data for building energy management.” <em>Energy and Buildings</em> 109: 75–89. <a href="https://doi.org/10.1016/j.enbuild.2015.09.060">https://doi.org/10.1016/j.enbuild.2015.09.060</a>.</p>
 </div>
 </div>
             </section>
@@ -330,14 +378,14 @@ y = \frac{1}{N}\sum_{i=1}^n{y_{-i}}
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
-"facebook": true,
+"github": true,
+"facebook": false,
 "twitter": true,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+"all": false
 },
 "fontsettings": {
 "theme": "white",
@@ -345,8 +393,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/edit/master/02_Data_cleaning.Rmd",
-"text": "Edit"
+"link": "https://github.com/RobertoChiosa/APPUNTI/master/02_Data_cleaning.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -358,7 +406,8 @@ gitbook.start({
 },
 "download": null,
 "toc": {
-"collapse": "subsection"
+"collapse": "subsection",
+"download": ["pdf", "epub"]
 }
 });
 });

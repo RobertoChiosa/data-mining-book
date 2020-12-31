@@ -27,6 +27,12 @@ categorical variables numerical variables
 ## influencing variables
 ## Time series
 
+```{r}
+head(df)%>%
+  knitr::kable(caption = "Raw gapminder data for Australia.")
+```
+
+
 ## Visualizations
 
 ### Box plots {#sec:boxplots}

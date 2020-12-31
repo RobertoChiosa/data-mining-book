@@ -15,11 +15,11 @@ Raw data are not always cleaned and ready for the analyst to be processed. Usual
 - Modification of the building usage;
 - Catastrophic events.
 
-Thus it is necessary to undergo a data preparation process that is usually the most time consuming task but also the most important.
+Thus it is necessary to undergo a data preparation process that is usually the most time consuming task but also the most important. The process of "fixing" the data is called data cleaning and the main objective is to manage missing values, resolve inconsistencies, and detect and remove outliers. 
 
-The process of "fixing" the data is called data cleaning and the main objective is to manage missing values, resolve inconsistencies, and detect and remove outliers.
+In the following, we will use as an example a portion of the dataset `df`. In particular we will consider just one week, shown in Figure \@ref(fig:scatter-week-raw).
 
-```{r, echo = FALSE}
+```{r scatter-week-raw, echo = FALSE, fig.align = 'center', fig.cap="Example of not cleaned dataset.",}
 
 p1<- ggplot(data =  df,
             aes(x = as.POSIXct(Date_Time, "%Y-%m-%d %H:%M:%S", tz = "Europe/Rome"),
@@ -52,23 +52,40 @@ p1<- ggplot(data =  df,
 ggMarginal(p1, type="boxplot", color = "blue", outlier.color = "green", margins = "y")
 ```
 
-
 ## Inconsistences
+
+
+An obvious inconsistency is defined by @Paper2013 as:
+
+> A record that contains a value or combination of values that cannot correspond to a real-world situation. 
+
+For example measures related to an electrical load cannot be negative infinite or not a real number, and any of those values can be easely detected and removed.
+ 
+However a particular knowledge of the measured data and systems is necessary to correctly evaluate inconsistences, which are not absolute but can vary depending on the situation.
+
+Such knowledge can be expressed as rules or constraints. In our case study since the measures value refers to electrical load (i.e. power absorbed by the utility) we know a priori that any negative value can be marked as inconsistence.
+
+```{r}
+inconsistences <- df$Total_Power[df$Total_Power < 0]
+```
+
+The electrical load dataset contains `r sum(df$Type == "Inconsistence")` inconsistences (`r paste(inconsistences[!is.na(inconsistences)],"kW")`). Once identified they can be removed by substituting NA value.
+
+```{r}
+df$Total_Power[match(inconsistences, df$Total_Power)] <- NA
+```
+
 ## Outliers
-A general definition of outlier is the following
+A general definition of outlier is provided by @Capozzoli2016:
 
 > "Outliers are records that appear to deviate significantly from other elements in
 the sample in which they occur. Outlier can be also defined as an observation (or subset of observations) that appears to be inconsistent with the remainder of that set of data."
->
-> --- Enhancing energy efficiency in buildings through innovative data analytics technologies Capozzoli
 
-In time series analysis the outliers are defied as:
+In time series analysis, @Fan2015 defines the outliers as:
 
-> "Observations unlikely to occur given the variance of the observations of the rest of the time series 
->
-> --- [C. Fan, F. Xiao, H. Madsen, and D. Wang, «Temporal knowledge discovery in big BAS data for building energy management», Energy and Buildings] . 
+> "Observations unlikely to occur given the variance of the observations of the rest of the time series
 
-They can be distinguished into 
+The so called outliers can be distinguished into:
 
 - Punctual outliers
 - Sequence outliers.
@@ -111,13 +128,11 @@ It is possible to identify the outliers by calculating the previous statistics a
 outliers <- boxplot.stats(df$Total_Power, coef = k)$out
 ```
 
-In the electrical load dataset, for the variable  `Total Power`,  the following values are outliers: `r paste(outliers,"kW")`). Once identified it can be removed by substituting NA value.
+The electrical load dataset contains `r sum(df$Type == "Outlier")` outliers (`r paste(outliers,"kW")`). Once identified they can be removed by substituting NA value.
 
 ```{r}
 df$Total_Power[match(outliers, df$Total_Power)] <- NA
 ```
-
-
 
 ### Z-score method for punctual outlier identification
 Z-scores can quantify the unusualness of an observation when your data follow the normal distribution. Z- scores are the number of standard deviations above and below the mean that each value falls. A standard cut-off value for finding outliers are Z-scores of +/-3 or further from zero.
@@ -133,6 +148,10 @@ This process allows simplifying the analysis through the use of Z-scores, which 
 
 ## Missing values
 
+A missing value consists in the lack of a given value or attribute in a dataset
+
+In datasets the placeholder for missing value is NA
+
 Common methods to handle missing values are global constant, local constant, moving average and interpolation.
 
 ### Global constant method 
@@ -144,7 +163,8 @@ substitute ALL the missing values in the data with a single value (e.g. Mean or 
 substitute the missing values in the data with a values calculated locally. This process is carried out through Lookup Tables.
 
 ```{r}
-data.frame(Day = c("Mon", "Tue"), Mean = c(1,2))
+data.frame(Day = c("Mon", "Tue"), Mean = c(1,2)) %>%
+  knitr::kable(caption = "Raw gapminder data for Australia.")
 ```
 
 

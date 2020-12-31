@@ -11,20 +11,20 @@
   <meta property="og:title" content="Chapter 1 Building related data | Data mining methods for building energy data" />
   <meta property="og:type" content="book" />
   
+  <meta property="og:image" content="images/logo-black.png" />
   
-  
-  
+  <meta name="github-repo" content="https://github.com/RobertoChiosa/APPUNTI" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 1 Building related data | Data mining methods for building energy data" />
   
   
-  
+  <meta name="twitter:image" content="images/logo-black.png" />
 
 <meta name="author" content="Roberto Chiosa" />
 
 
-<meta name="date" content="2020-12-30" />
+<meta name="date" content="2020-12-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -180,8 +180,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="supervised-learning.html"><a href="supervised-learning.html#benchmarking"><i class="fa fa-check"></i><b>5.4</b> benchmarking</a></li>
 <li class="chapter" data-level="5.5" data-path="supervised-learning.html"><a href="supervised-learning.html#artificial-neural-network"><i class="fa fa-check"></i><b>5.5</b> artificial neural network</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a></li>
+<li class="chapter" data-level="B" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>B</b> Appendix B</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -221,32 +225,249 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="time-series" class="section level2">
 <h2><span class="header-section-number">1.2</span> Time series</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="building-related-data.html#cb1-1"></a><span class="kw">head</span>(df)<span class="op">%&gt;%</span></span>
+<span id="cb1-2"><a href="building-related-data.html#cb1-2"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">caption =</span> <span class="st">&quot;Raw gapminder data for Australia.&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-3">Table 1.1: </span>Raw gapminder data for Australia.</caption>
+<colgroup>
+<col width="8%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="8%" />
+<col width="4%" />
+<col width="5%" />
+<col width="3%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+<col width="3%" />
+<col width="2%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Date_Time</th>
+<th align="left">Date</th>
+<th align="left">Time</th>
+<th align="right">min_dec</th>
+<th align="right">Day_Type</th>
+<th align="left">festivo</th>
+<th align="left">FasciaAEEG</th>
+<th align="right">Total_Power</th>
+<th align="right">DIMAT</th>
+<th align="right">Refrigeration_unit2</th>
+<th align="right">Data_centre</th>
+<th align="right">Bar_Ambrogio</th>
+<th align="right">Canteen</th>
+<th align="right">Rectory</th>
+<th align="right">Print_shop</th>
+<th align="right">Allocated</th>
+<th align="right">Not_allocated</th>
+<th align="left">Week_Day</th>
+<th align="left">Month</th>
+<th align="right">Month_Day</th>
+<th align="right">Year</th>
+<th align="right">Year_Day</th>
+<th align="right">Hour</th>
+<th align="right">Minute</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2018-05-07 00:00:00</td>
+<td align="left">2018-05-07</td>
+<td align="left">00:00:00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">N</td>
+<td align="left">F23</td>
+<td align="right">140.0</td>
+<td align="right">3.6</td>
+<td align="right">2.4</td>
+<td align="right">37.6</td>
+<td align="right">6.0</td>
+<td align="right">15.6</td>
+<td align="right">8.0</td>
+<td align="right">0.4</td>
+<td align="right">73.6</td>
+<td align="right">66.4</td>
+<td align="left">Lun</td>
+<td align="left">Mag</td>
+<td align="right">7</td>
+<td align="right">2018</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2018-05-07 00:15:00</td>
+<td align="left">2018-05-07</td>
+<td align="left">00:15:00</td>
+<td align="right">0.25</td>
+<td align="right">1</td>
+<td align="left">N</td>
+<td align="left">F23</td>
+<td align="right">142.0</td>
+<td align="right">4.0</td>
+<td align="right">2.4</td>
+<td align="right">40.4</td>
+<td align="right">6.4</td>
+<td align="right">16.8</td>
+<td align="right">8.0</td>
+<td align="right">0.0</td>
+<td align="right">78.0</td>
+<td align="right">64.0</td>
+<td align="left">Lun</td>
+<td align="left">Mag</td>
+<td align="right">7</td>
+<td align="right">2018</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td align="left">2018-05-07 00:30:00</td>
+<td align="left">2018-05-07</td>
+<td align="left">00:30:00</td>
+<td align="right">0.50</td>
+<td align="right">1</td>
+<td align="left">N</td>
+<td align="left">F23</td>
+<td align="right">140.8</td>
+<td align="right">3.6</td>
+<td align="right">2.0</td>
+<td align="right">39.6</td>
+<td align="right">6.0</td>
+<td align="right">18.4</td>
+<td align="right">8.4</td>
+<td align="right">0.4</td>
+<td align="right">78.4</td>
+<td align="right">62.4</td>
+<td align="left">Lun</td>
+<td align="left">Mag</td>
+<td align="right">7</td>
+<td align="right">2018</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">30</td>
+</tr>
+<tr class="even">
+<td align="left">2018-05-07 00:45:00</td>
+<td align="left">2018-05-07</td>
+<td align="left">00:45:00</td>
+<td align="right">0.75</td>
+<td align="right">1</td>
+<td align="left">N</td>
+<td align="left">F23</td>
+<td align="right">134.0</td>
+<td align="right">4.0</td>
+<td align="right">2.4</td>
+<td align="right">36.4</td>
+<td align="right">6.0</td>
+<td align="right">16.0</td>
+<td align="right">8.0</td>
+<td align="right">0.8</td>
+<td align="right">73.6</td>
+<td align="right">60.4</td>
+<td align="left">Lun</td>
+<td align="left">Mag</td>
+<td align="right">7</td>
+<td align="right">2018</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">45</td>
+</tr>
+<tr class="odd">
+<td align="left">2018-05-07 01:00:00</td>
+<td align="left">2018-05-07</td>
+<td align="left">01:00:00</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="left">N</td>
+<td align="left">F23</td>
+<td align="right">139.6</td>
+<td align="right">3.6</td>
+<td align="right">2.4</td>
+<td align="right">42.0</td>
+<td align="right">6.0</td>
+<td align="right">16.8</td>
+<td align="right">8.0</td>
+<td align="right">0.4</td>
+<td align="right">79.2</td>
+<td align="right">60.4</td>
+<td align="left">Lun</td>
+<td align="left">Mag</td>
+<td align="right">7</td>
+<td align="right">2018</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2018-05-07 01:15:00</td>
+<td align="left">2018-05-07</td>
+<td align="left">01:15:00</td>
+<td align="right">1.25</td>
+<td align="right">1</td>
+<td align="left">N</td>
+<td align="left">F23</td>
+<td align="right">140.8</td>
+<td align="right">3.6</td>
+<td align="right">2.0</td>
+<td align="right">39.6</td>
+<td align="right">6.0</td>
+<td align="right">18.0</td>
+<td align="right">8.0</td>
+<td align="right">0.0</td>
+<td align="right">77.2</td>
+<td align="right">63.6</td>
+<td align="left">Lun</td>
+<td align="left">Mag</td>
+<td align="right">7</td>
+<td align="right">2018</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="right">15</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="visualizations" class="section level2">
 <h2><span class="header-section-number">1.3</span> Visualizations</h2>
 <div id="sec:boxplots" class="section level3">
 <h3><span class="header-section-number">1.3.1</span> Box plots</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="building-related-data.html#cb1-1"></a>p1&lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></span>
-<span id="cb1-2"><a href="building-related-data.html#cb1-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
-<span id="cb1-3"><a href="building-related-data.html#cb1-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> ..density..),</span>
-<span id="cb1-4"><a href="building-related-data.html#cb1-4"></a>                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, </span>
-<span id="cb1-5"><a href="building-related-data.html#cb1-5"></a>                 <span class="dt">binwidth =</span> <span class="dv">40</span>, <span class="dt">na.rm =</span> T) <span class="op">+</span></span>
-<span id="cb1-6"><a href="building-related-data.html#cb1-6"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> ..density..),</span>
-<span id="cb1-7"><a href="building-related-data.html#cb1-7"></a>               <span class="dt">alpha =</span> <span class="fl">.2</span>, <span class="dt">fill =</span> <span class="st">&quot;#FF6666&quot;</span>, <span class="dt">na.rm =</span> T) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb1-8"><a href="building-related-data.html#cb1-8"></a><span class="st">  </span><span class="kw">stat_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> <span class="fl">-0.0025</span>), </span>
-<span id="cb1-9"><a href="building-related-data.html#cb1-9"></a>               <span class="dt">geom =</span><span class="st">&#39;errorbar&#39;</span>, <span class="dt">width =</span> <span class="fl">0.0025</span>) <span class="op">+</span></span>
-<span id="cb1-10"><a href="building-related-data.html#cb1-10"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> <span class="fl">-0.0025</span>), </span>
-<span id="cb1-11"><a href="building-related-data.html#cb1-11"></a>               <span class="dt">fill =</span> <span class="st">&quot;lightgrey&quot;</span>, <span class="dt">width =</span> <span class="fl">0.0025</span>, <span class="dt">na.rm =</span> T) <span class="op">+</span></span>
-<span id="cb1-12"><a href="building-related-data.html#cb1-12"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">mean</span>(Total_Power, <span class="dt">na.rm =</span> T), <span class="dt">y =</span> <span class="fl">-0.0025</span>), </span>
-<span id="cb1-13"><a href="building-related-data.html#cb1-13"></a>             <span class="dt">shape =</span> <span class="dv">3</span>, <span class="dt">size =</span> <span class="fl">1.5</span>) <span class="op">+</span></span>
-<span id="cb1-14"><a href="building-related-data.html#cb1-14"></a><span class="st">  </span><span class="kw">labs</span>( <span class="dt">x =</span> <span class="st">&quot;Electrical load [kW]&quot;</span> , <span class="dt">y =</span> <span class="st">&quot;Density [-]&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb1-15"><a href="building-related-data.html#cb1-15"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</span>
-<span id="cb1-16"><a href="building-related-data.html#cb1-16"></a></span>
-<span id="cb1-17"><a href="building-related-data.html#cb1-17"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot_box_legend</span>()</span>
-<span id="cb1-18"><a href="building-related-data.html#cb1-18"></a></span>
-<span id="cb1-19"><a href="building-related-data.html#cb1-19"></a><span class="kw">ggarrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="building-related-data.html#cb2-1"></a>p1&lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></span>
+<span id="cb2-2"><a href="building-related-data.html#cb2-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb2-3"><a href="building-related-data.html#cb2-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> ..density..),</span>
+<span id="cb2-4"><a href="building-related-data.html#cb2-4"></a>                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb2-5"><a href="building-related-data.html#cb2-5"></a>                 <span class="dt">binwidth =</span> <span class="dv">40</span>, <span class="dt">na.rm =</span> T) <span class="op">+</span></span>
+<span id="cb2-6"><a href="building-related-data.html#cb2-6"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> ..density..),</span>
+<span id="cb2-7"><a href="building-related-data.html#cb2-7"></a>               <span class="dt">alpha =</span> <span class="fl">.2</span>, <span class="dt">fill =</span> <span class="st">&quot;#FF6666&quot;</span>, <span class="dt">na.rm =</span> T) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb2-8"><a href="building-related-data.html#cb2-8"></a><span class="st">  </span><span class="kw">stat_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> <span class="fl">-0.0025</span>), </span>
+<span id="cb2-9"><a href="building-related-data.html#cb2-9"></a>               <span class="dt">geom =</span><span class="st">&#39;errorbar&#39;</span>, <span class="dt">width =</span> <span class="fl">0.0025</span>) <span class="op">+</span></span>
+<span id="cb2-10"><a href="building-related-data.html#cb2-10"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Total_Power, <span class="dt">y =</span> <span class="fl">-0.0025</span>), </span>
+<span id="cb2-11"><a href="building-related-data.html#cb2-11"></a>               <span class="dt">fill =</span> <span class="st">&quot;lightgrey&quot;</span>, <span class="dt">width =</span> <span class="fl">0.0025</span>, <span class="dt">na.rm =</span> T) <span class="op">+</span></span>
+<span id="cb2-12"><a href="building-related-data.html#cb2-12"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">mean</span>(Total_Power, <span class="dt">na.rm =</span> T), <span class="dt">y =</span> <span class="fl">-0.0025</span>), </span>
+<span id="cb2-13"><a href="building-related-data.html#cb2-13"></a>             <span class="dt">shape =</span> <span class="dv">3</span>, <span class="dt">size =</span> <span class="fl">1.5</span>) <span class="op">+</span></span>
+<span id="cb2-14"><a href="building-related-data.html#cb2-14"></a><span class="st">  </span><span class="kw">labs</span>( <span class="dt">x =</span> <span class="st">&quot;Electrical load [kW]&quot;</span> , <span class="dt">y =</span> <span class="st">&quot;Density [-]&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb2-15"><a href="building-related-data.html#cb2-15"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</span>
+<span id="cb2-16"><a href="building-related-data.html#cb2-16"></a></span>
+<span id="cb2-17"><a href="building-related-data.html#cb2-17"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot_box_legend</span>()</span>
+<span id="cb2-18"><a href="building-related-data.html#cb2-18"></a></span>
+<span id="cb2-19"><a href="building-related-data.html#cb2-19"></a><span class="kw">ggarrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 82 rows containing non-finite values (stat_boxplot).</code></pre>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="scatter-plots" class="section level3">
 <h3><span class="header-section-number">1.3.2</span> scatter plots</h3>
@@ -282,14 +503,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
-"facebook": true,
+"github": true,
+"facebook": false,
 "twitter": true,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+"all": false
 },
 "fontsettings": {
 "theme": "white",
@@ -297,8 +518,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/edit/master/01_Building_related_data.Rmd",
-"text": "Edit"
+"link": "https://github.com/RobertoChiosa/APPUNTI/master/01_Building_related_data.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -310,26 +531,13 @@ gitbook.start({
 },
 "download": null,
 "toc": {
-"collapse": "subsection"
+"collapse": "subsection",
+"download": ["pdf", "epub"]
 }
 });
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

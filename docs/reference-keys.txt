@@ -31,3 +31,13 @@ regression
 forecasting
 benchmarking
 artificial-neural-network
+appendix-a
+appendix-b
+fig:unnamed-chunk-2
+fig:gg-oz-plot
+fig:scatter-week-raw
+tab:unnamed-chunk-6
+tab:unnamed-chunk-11
+tab:unnamed-chunk-3
+tab:unnamed-chunk-7
+tab:unnamed-chunk-14

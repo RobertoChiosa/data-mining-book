@@ -6,3 +6,4 @@ view: https://github.com/RobertoChiosa/APPUNTI/blob/master/%s
 language:
   ui:
     chapter_name: "Chapter "
+new_session: 'yes'

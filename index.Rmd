@@ -3,6 +3,12 @@ title: "Data mining methods for building energy data"
 author: "Roberto Chiosa"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
+documentclass: book
+cover-image: images/logo-black.png
+github-repo: https://github.com/RobertoChiosa/APPUNTI
+bibliography: "bibliography.bib"
+biblio-style: "ieee"
+link-citations: true
 ---
 
 The aim of this work is to describe some useful data analyses methods useful for in the field of building data analytics.
