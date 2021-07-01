@@ -1,0 +1,61 @@
+# data transformation
+
+rescaling
+
+
+The process of data transformation consists of scaling data and data type transformation. In a typical building related data set the scale of variables can vary largely due to different units used.
+The power demand may change from 0 kW to thousands of kW, the temperature (eg, outdoor temperature, indoor temperature, supply temperature of the system) can range from − 20°C to °C or a typical signal of a fan can range from 0 to 1.
+
+## data scaling
+The purpose of data scaling is to normalize the data variables so that they end up being equally important in data analysis from a quantity point of view. The methods used for data scaling include max-min normalization, Z-score normalization, and decimal point normalization
+
+depend on the purpose of the data analytics method
+
+### Max scaling
+sets the upper bound to 1
+
+useful for striclty positive timeseries measurements since reduces the data into 0-1 range. 
+
+A given time series $y(t)$ can be transformed into a new scaled timeseries $y'(t)$ with the following equation
+\begin{equation}
+y'(t) = \frac{y(t)}{\max y(t)}
+\end{equation}
+
+
+### Min Max scaling 
+sets the interval of possible values to [0,1]
+
+A given time series $y(t)$ can be transformed into a new scaled timeseries $y'(t)$ with the following equation
+\begin{equation}
+y'(t) = \frac{y(t)-\min(t)}{\max y(t)-\min(t)}
+\end{equation}
+
+### normalization
+zscore
+
+## data type transformation aggregation
+
+from numerical to categorical data reduction
+loss of informations
+
+### equally width bins
+
+### equally frequency bins
+problems in creating very narrow class
+
+### integer encoding
+used for ANN
+day of the week, and
+one hot encoding
+
+
+## data reduction
+improve computational efficiency 
+
+### Piecawise Aggregate Approximation (PAA)
+
+
+### data segmentation
+The segmentation (or summarization) task aims at creating an accurate approximation of time series, by reducing its dimensionality while retaining its essential features.
+
+## Visualization

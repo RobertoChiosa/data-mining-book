@@ -1,0 +1,88 @@
+# Machine Learning Metrics
+
+
+
+## Classification Metrics
+
+
+### Confusion metrics
+
+### Accuracy
+
+### Precision
+
+### Recall
+
+## Regression Metrics
+Let’s assume we have a regression model which predicts a given variable ($\hat{y}_i$), and let’s say we also have the actual value of the given variable ($y_i$).
+
+### Mean Squared Error (MSE)
+It shows the average deviation between actual value and predicted value. It is calculated as follows:
+\begin{equation}
+    MSE = \frac{1}{N}\sum_{i=1}^N{(y_i-\hat{y}_i)^2}
+\end{equation}
+
+Takes the average of the square of the difference between the original values and the predicted values. As we take square of the error, the effect of larger errors (sometimes outliers) become more pronounced then smaller error. Model will be penalized more for making predictions that differ greatly from the corresponding actual value.
+
+Thus, before applying MSE, we must eliminate all nulls/infinites from the input and keep in mind that it is not robust to outliers. The unit of measure of MSE is not the original one because the variables are squared.
+
+By definition its value ranges in the interval $(0, + \infty]$, smaller the MSE better the prediction.
+
+
+### Root Mean Squared Error (RMSE)
+
+This metrics is the square root of MSE and is defines ad follows:
+\begin{equation}
+    RMSE = \sqrt{\frac{1}{N}\sum_{i=1}^N{(y_i-\hat{y}_i})^2}
+\end{equation}
+
+
+The RMSE is analogous to the standard deviation and is a measure of how large the residuals are spread out. Since it derives from the MSE definition it is similarly affected by the outliers. Generally, RMSE will be higher than or equal to MAE but it has the same units of measure of the predicted value.
+
+RMSE is always non-negative, and a value of 0 (almost never achieved in practice) would indicate a perfect fit to the data. In general, a lower RMSD is better than a higher one. However, comparisons across different types of data would be invalid because the measure is dependent on the scale of the numbers used.
+
+### Root Mean Squared Percentage Error (RMSPE)
+
+In some cases is useful to express the RMSE in percentage, the relative metrics is RMSPE and is defined ad follows:
+\begin{equation}
+    RMSPE = \bigg( \sqrt{\frac{1}{N}\sum_{i=1}^N{ \frac{(y_i-\hat{y}_i)^2}{y_i}  }} \bigg)*100
+\end{equation}
+
+### Mean Absolute Error (MAE)
+It finds the average absolute distance between the predicted and target variables. It is robust to outliers compared to MSE, the main reason being that in MSE by squaring the errors, the outliers (which usually have higher errors than other samples) get more attention and dominance in the final error and impacting the model parameters. However, they don’t gives us any idea of the direction of the error i.e. whether we are under predicting the data or over predicting the data. 
+
+\begin{equation}
+    MAE = \frac{1}{N}\sum_{i=1}^N{|y_i-\hat{y}_i|}
+\end{equation}
+
+MAE possesses advantages in interpretability over RMSD. MAE is the average of the absolute values of the errors. Furthermore, each error influences MAE in direct proportion to the absolute value of the error, which is not the case for RMSD. Since it doesn't squares the outliers it is more robust to outliers.
+
+MAE ranges in the interval $(0, + \infty]$, maller the MAE, better is the model.
+
+### Mean Absolute Percentage Error (MAPE)
+
+The MAE can be expressed as percentage as follows:
+
+\begin{equation}
+    MAPE = \frac{1}{N}\sum_{i=1}^N{  \bigg| \frac{y_i-\hat{y}_i}{y_i} \bigg|   }
+\end{equation}
+
+This definition permits a better interpretability but some problems can occur when calculating the MAPE value with a series of small denominators. Moreover it does not fit for methods comparison when the order of magnotude of the predicted value varies significantly.
+
+
+
+### Median Absolute Percentage Error (MedianAPE)
+### Root Absolute Error (RAE)
+### R2 (R2_Score)
+R Squared metric is generally used for explanatory purpose and provides an indication of the goodness or fit of a set of predicted output values to the actual output values.
+
+\begin{equation}
+    R^2 = \frac{MSE_{model}}{MSE_{baseline}} = \frac{}{}
+\end{equation}
+
+- A model performing equal to baseline would give R-Squared as 0. Better the model, higher the r2 value.
+- Range[- infinity, 1)
+
+https://medium.com/human-in-a-machine-world/mae-and-rmse-which-metric-is-better-e60ac3bde13d#:~:text=Definitions,predictions%2C%20without%20considering%20their%20direction.&text=Root%20mean%20squared%20error%20(RMSE)%3A%20RMSE%20is%20a%20quadratic,average%20magnitude%20of%20the%20error.
+
+### Adjusted R2 (R2_Score)} 

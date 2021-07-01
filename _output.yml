@@ -1,6 +1,7 @@
 bookdown::gitbook:
   highlight: default
   css: style.css
+  download: yes
   config:
     toc:
       before: |
@@ -8,11 +9,12 @@ bookdown::gitbook:
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
       download: ["pdf", "epub"]
+      scroll_highlight: yes
     edit:
       link: https://github.com/RobertoChiosa/APPUNTI/master/%s
       text: "Suggest an edit"
     sharing:
       github: yes
-      facebook: no
+      facebook: yes
       twitter: yes
       all: no

@@ -7,6 +7,7 @@ library(ggplot2)              # data visualization
 # # library(tidyr)                # can be avoided loading tidyverse
 # library(plyr)                   # data manipulation 
 library(ggExtra)                # distributions on border
+
 # library(RColorBrewer)           # Pacchetto per creare palette di colori più accattivanti
 # library(rpart)                  # make classification tree
 # library(rpart.plot)             # plot classification tree
@@ -14,7 +15,7 @@ library(ggExtra)                # distributions on border
 library(scales)                 # Graphical scales map data to aesthetics
 # library(MLmetrics)              # measure regression, classification and ranking performance.
 library(lubridate)              # easy to work with dates and times
-# library(imputeTS)               # manage missing values
+library(imputeTS)               # manage missing values
 # library(jmotif)                 # sax manipulations
  library(ggpubr)                 # multiple plots in line or column
 # library(stringr)                # multiple plots in line or column

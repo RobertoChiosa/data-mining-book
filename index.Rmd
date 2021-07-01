@@ -1,6 +1,9 @@
 --- 
 title: "Data mining methods for building energy data"
-author: "Roberto Chiosa"
+author:
+  - name: Roberto Chiosa
+    affiliation: BAEDA Lab - Politecnico di Torino
+    email: roberto.chiosa@polito.it
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -10,8 +13,12 @@ bibliography: "bibliography.bib"
 biblio-style: "ieee"
 link-citations: true
 ---
+```{r, echo = FALSE, include = FALSE}
+library(distill)  
+```
 
 The aim of this work is to describe some useful data analyses methods useful for in the field of building data analytics.
 
-# Author {-}
+# Introduction {-}
 
+A brief introduction and puropose of this book

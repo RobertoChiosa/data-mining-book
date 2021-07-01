@@ -1,0 +1,309 @@
+
+```{r, echo = FALSE, include = FALSE}
+source("./scripts/packages.R") # load necessary packages
+source("./scripts/boxplot_legend.R")
+df <- read.csv("./data/week_not_clean.csv", header = TRUE, sep = ",", dec = ".", check.names = FALSE)
+```
+
+# Data cleaning
+
+Raw data are not always cleaned and ready for the analyst to be processed. Usually there are many anomalies that have to be fixed before the analytics process. Typical problems that can generate anomalies in the data:
+
+- Meter communication failed;
+- Sensor break or modification;
+- Intervention on the system (e.g. revamping of the heating/cooling system);
+- Modification of the building usage;
+- Catastrophic events.
+
+Thus it is necessary to undergo a data preparation process that is usually the most time consuming task but also the most important. The process of "fixing" the data is called data cleaning and the main objective is to manage missing values, resolve inconsistencies, and detect and remove outliers. 
+
+It is a time consuming task that has to be performed through data driven and statistical methods as well as domain knowledge methods.
+
+In the following, we will use as an example a portion of the dataset `df`. In particular we will consider just one week, shown in Figure \@ref(fig:scatter-week-raw).
+
+```{r scatter-week-raw, echo = FALSE, fig.align = 'center', fig.cap="Example of not cleaned dataset.",}
+
+p1<- ggplot(data =  df,
+            aes(x = as.POSIXct(Date_Time, "%Y-%m-%d %H:%M:%S", tz = "Europe/Rome"),
+                y =  Total_Power,
+                color = Type
+            )
+) + 
+  geom_point(na.rm = TRUE) + 
+  scale_x_datetime(
+    breaks = date_breaks("8 hour"),                     
+    labels = date_format(("%H:%M") , tz = "Europe/Rome"),
+    expand = c(0,0)                                     
+  ) +
+  scale_color_manual(values = c("blue", "red", "gray", "green")) + 
+  theme_classic() +
+  ggplot2::theme(
+    legend.text = element_text(size = 10),
+    legend.position = "top",                     # legend position on the top of the graph
+    legend.direction = "horizontal",             # layout of items in legends
+    legend.box = "horizontal",                   # arrangement of multiple legends
+    strip.text = element_text(size = 10), # facet wrap title fontsize
+    axis.title.x = element_text(size = 12,margin = margin(t = 20, r = 20, b = 0, l = 0)),
+    axis.title.y = element_text(size = 12,margin = margin(t = 20, r = 20, b = 0, l = 0)),
+    axis.text.x = element_text(size = 10, angle = 45, vjust=.0),
+    axis.text.y = element_text(size = 10)
+  ) + 
+  guides(colour=guide_legend("", override.aes=list(colour=c("blue", "red", "gray", "green") ))) + 
+  labs( x = "Hour" , y = "Electrical Load [kW]", legend = "")                    # axis label
+
+ggMarginal(p1, type="boxplot", color = "blue", outlier.color = "green", margins = "y")
+```
+
+## Inconsistences
+
+A first kind of inconsistence can be a duplicated data. A dataset may include duplicated data (ex. due to meter communication malfunctioning) and those observations have to be detected and removed. This process is defined as deduplication.
+
+Another kind of inconsistence may be connected with the units of measure of the data. It is important to know the units of measure of physical qualtities in order to further manipulate the dataset and be consistent. A way to address to this issue is to convert data to known units of measure and possibly to the International System. R provides a package that convert the clsss to a units of measure.
+
+Another type of inconsistence is defined by @Paper2013 as:
+
+> A record that contains a value or combination of values that cannot correspond to a real-world situation. 
+
+For example measures related to an electrical load cannot be negative infinite or not a real number, and any of those values can be easely detected and removed. In this case, a particular knowledge of the measured data and systems is necessary to correctly evaluate inconsistences, which are not absolute but can vary depending on the situation.
+
+Such knowledge can be expressed as rules or constraints. In our case study since the measures value refers to electrical load (i.e. power absorbed by the utility) we know a priori that any negative value can be marked as inconsistence.
+
+```{r}
+inconsistences <- df$Total_Power[df$Total_Power < 0]      # find inconsistent values
+inconsistences <- inconsistences[!is.na(inconsistences)]  # removes NA from results
+```
+
+The electrical load dataset contains `r length(inconsistences)` inconsistences (`r paste(inconsistences,"kW")`). Once identified they can be removed by substituting NA value.
+
+```{r}
+index <- which(df$Total_Power %in% inconsistences)     # row index of the inconsistence
+df$Total_Power <- replace(df$Total_Power, index, NA)   # replace with NA
+```
+
+## Outliers
+A general definition of outlier is provided by @Capozzoli2016:
+
+> "Outliers are records that appear to deviate significantly from other elements in
+the sample in which they occur. Outlier can be also defined as an observation (or subset of observations) that appears to be inconsistent with the remainder of that set of data."
+
+In time series analysis, @Fan2015 defines the outliers as:
+
+> "Observations unlikely to occur given the variance of the observations of the rest of the time series
+
+The so called outliers can be distinguished into:
+
+- Punctual outliers
+- Sequence outliers.
+
+In the data pre-processing phase, the identification of punctual outliers is needed, whenever infrequent sequential patterns could be detected through further investigation at a later stage (non supervised methods).
+
+### Inter-quartile method for punctual outlier identification
+
+Detecting outliers with the interquartile method requires the calculation of three fundamental values:
+
+- First quartile $Q_1$ : the point between the smallest value and the median (25% of the distribution) ;
+- Second quartile or median $Q_2$ : the middle value of the dataset (50% of the distribution);
+- Third quartile $Q_3$ : the point between median and the highest value (75% of the distribution);
+
+
+The difference between the third and the first quartile is called Inter-Quartile Range $\text{IQR} = Q_3-Q_1$.
+
+To detect the outliers is necessary to define an acceptability range and any data point lying outside this range are considered as outlier. The range is as given below:
+
+\begin{equation}
+R = [Q_2 − k \text{IQR}, Q_3 + k \text{IQR}]
+\end{equation}
+
+Where $k$ is an arbitrary parameters usually set at $1.5$. Depending on the analyst choice the value of $k$ can vary in order to enlarge or restrict the acceptability range, Any data point less than the Lower Bound or higher than the Upper Bound is considered as an *outlier*. 
+
+An effective way to visualize variables distributions and detect outliers is the boxplot (Section \@ref(sec:boxplots)) because it summarizes in a single plot all the statistics needed. Those statistics can be easily calculated through the R package `stats` as follows:
+
+```{r}
+Q1 = quantile(df$Total_Power, na.rm = T, c(0.25))  
+Q2 = quantile(df$Total_Power, na.rm = T, c(0.50))  
+Q3 = quantile(df$Total_Power, na.rm = T, c(0.75))  
+Iqr = IQR(df$Total_Power, na.rm = T)               
+k = 1.5
+Lower_bound = Q1 - k*Iqr
+Upper_bound = Q2 + k*Iqr
+```
+
+It is possible to identify the outliers by calculating the previous statistics and setting manually the range limits or by using the  `boxplot.stats` function which, given the $k$ coefficient, returns a list of values in which and `$out` is a vector of all the detected outliers. 
+```{r}
+outliers <- boxplot.stats(df$Total_Power, coef = k)$out
+```
+
+The electrical load dataset contains `r sum(df$Type == "Outlier")` outliers (`r paste(outliers,"kW")`) red colored in \@ref(fig:scatter-week-raw). Once identified they can be removed by substituting NA value.
+```{r, include = F}
+df$Total_Power_copy <- df$Total_Power 
+df$Total_Power_Z <- (df$Total_Power_copy-mean(df$Total_Power_copy, na.rm = T))/sd(df$Total_Power_copy, na.rm = T)
+```
+
+```{r, echo = FALSE}
+index <- which(df$Total_Power %in% outliers)           # row index of the outliers
+df$Total_Power <- replace(df$Total_Power, index, NA)   # replace with NA
+```
+
+### Z-score method for punctual outlier identification
+
+This process allows the outlier discovery through the use of Z-scores, which is a measure of the position of data and represents how many standard deviations it is far from the mean of a standard normal distribution $N(0,1)$. If the value is positive, the value lies above the mean; if negative it lies below. 
+
+A given time series $y(t) = \{y_1, \dots y_n\}$ of length $n$ with mean $\mu$ and standard deviation $\sigma$ is transformed into a new time series $Z(t) = \{Z_1, \dots Z_n\}$ of length $n$ with zero mean $\mu = 0$ and unitary standard deviation $\sigma = 1$ through the following equation:
+
+\begin{equation}
+Z(t) = \frac{y(t)-\mu}{\sigma}
+\end{equation}
+
+```{r, eval = F}
+y <- df$Total_Power                         # original time series
+mu <- mean(df$Total_Power, na.rm = T)       # mean
+sigma <- sd(df$Total_Power_copy, na.rm = T) # standard deviation
+Z <- (y-mu)/sigma                           # standardized time series
+```
+
+Z-scores can quantify the unusualness of an observation when the data follow the normal distribution. The acceptability range for a Z-score normalized distribution is usually calculated with $k = 2$.
+
+This method is robust when the analyzed dataset follows the normal distrubution or distributions similar in shape (Figure \@ref(fig:zscore-normal) on the left). However, building energy data usually present a positively skewed distribution (Figure \@ref(fig:zscore-normal) on the right) and Z-score normalization for outlier detection can be applied ( detects the outliers `r paste(round(boxplot.stats(df$Total_Power_Z, coef = 2)$out,2))` corresponding to `r paste(outliers,"kW")` ), but usually is avoided because in clear contrast with the underlying hypoteses of normality.
+
+```{r, zscore-normal, echo = FALSE, message = FALSE, warning = FALSE, fig.dim = c(8, 4), fig.cap="Example of Z-score normalization for a quasi-normal distribution (left) and building electrical load distribution (rigth). For each distribution is reported the histogram and the kernel density curve (light red) and the theoretical normal distribution (blue)"}
+
+# per dataset quasi normal
+X <- c(rnorm(length(df$Total_Power_Z)-100, mean = 50, sd =4), rnorm(100, mean = 60, sd =5))
+df_norm_Z <- data.frame(x = (X-mean(X))/sd(X))
+
+# per dataset normal
+XX <- seq(-4, 4, length = length(df$Total_Power_Z))
+YY <- dnorm(XX)
+
+p1 <- df_norm_Z %>%
+  ggplot() +
+  geom_histogram(aes(x = x, y = ..density..),
+                 colour = "black", fill = "white", 
+                 binwidth = 0.5, na.rm = T) +
+  geom_density(aes(x = x, y = ..density..),
+               alpha = .2, fill = "#FF6666", na.rm = T) + 
+  geom_area(aes(x = XX , y = YY),
+            alpha = .02, color = "blue", na.rm = T) + 
+  stat_boxplot(aes(x = x, y = -0.1), 
+               geom ='errorbar', width = 0.1) +
+  geom_boxplot(aes(x = x, y = -0.1), 
+               fill = "lightgrey", width = 0.1, na.rm = T) +
+  geom_point(aes(x = mean(x, na.rm = T), y = -0.1), 
+             shape = 3, size = 1.5) +
+  labs( x = "Z(t)" , y = "Density [-]") + 
+  theme_classic() +  ylim(-0.16, 1) + xlim(-4, 4)
+
+p2 <- df  %>%
+  ggplot() +
+  geom_histogram(aes(x = Total_Power_Z, y = ..density..),
+                 colour = "black", fill = "white", 
+                 binwidth = 0.5, na.rm = T) +
+  geom_density(aes(x = Total_Power_Z, y = ..density..),
+               alpha = .2, fill = "#FF6666", na.rm = T) +
+  geom_area(aes(x = XX , y = YY),
+            alpha = .02, color = "blue", na.rm = T) + 
+  stat_boxplot(aes(x = Total_Power_Z, y = -0.1), 
+               geom ='errorbar', width = 0.1) +
+  geom_boxplot(aes(x = Total_Power_Z, y = -0.1), 
+               fill = "lightgrey", width = 0.1, na.rm = T) +
+  geom_point(aes(x = mean(Total_Power_Z, na.rm = T), y = -0.1), 
+             shape = 3, size = 1.5) +
+  labs( x = "Z(t)" , y = "Density [-]") + 
+  theme_classic() +  ylim(-0.16, 1)
+
+
+ggarrange(p1, p2, nrow = 1)
+```
+
+## Missing values
+
+A missing value consists in the lack of a given value or attribute in a dataset, the placeholder for missing value is NA.
+
+There are several strategies to handle missing values, each of them has to be evaluated considering the circumstances. 
+
+The most obvious strategy is to eliminate or ignore missing values object during the analysis. Sometimes this approach is the only viable since the missing values covers some extensive part of the dataset; a reconstruction and estimation of those values could lead to data fabrication and lead to wrong or inconsistent model.
+
+The other strategy consists in the estimation of the missing values. Common methods to handle missing values are global constant, local constant, moving average and interpolation.
+
+A useful package that permits to handle missing values is `imputeTS`. Among many na-imputing functions it provides also `ggplot` functions to automatically inspect missing values (Figure \@ref(fig:imputeTS-plot)).
+
+```{r, imputeTS-plot, echo = TRUE, message = FALSE, warning = FALSE, fig.dim = c(8, 4), fig.cap="Distribution of missing values plotted through imputeTS package. The time series missinv values are highlighted with the vertical red regions"}
+ggplot_na_distribution(df$Total_Power) +
+  labs(title = "", subtitle = "") + theme_classic() +
+  xlab("# observation (Time)") + ylab("Electrical load [kW]")
+```
+### Global constant method 
+
+This method consists in substituting all the missing values in the data with a single value (e.g. Mean or Median value of the data or an arbitrary constant). The value has to be selected with an knowledge based on the current dataset. This method is the easiest one but usually the least effective, especially for building energy data.
+
+In Figure \@ref(fig:global-constant-method) is presented an example of global constant imputation of the electrical load dataset with mean value (`r paste(round(mean(df$Total_Power,na.rm=T),2), "kW")`) and an arbitrary value (200 kW). To perform the missing value imputation we use the package `imputeTS` and its functions. 
+
+```{r, global-constant-method, echo = TRUE, message = FALSE, warning = FALSE, fig.dim = c(8, 4), fig.cap="Global constant method imputation applied on the electrical load dataset. In blue the known values and in red the missing values replacement"}
+# global constant (mean) imputation 
+imp <- na_mean(df$Total_Power, option = "mean") 
+p1 <- ggplot_na_imputations(df$Total_Power, imp) + theme_classic() +
+  theme(legend.position = "none", plot.subtitle = element_text(hjust = 0.5))   + 
+  labs(title = "", subtitle = "Mean") + xlab("") + ylab("Electrical load [kW]")
+
+# global constant (arbitrary) imputation
+imp <- na_replace(df$Total_Power, fill = 200 )      
+p2 <- ggplot_na_imputations(df$Total_Power, imp) +  theme_classic() +
+  theme(legend.position = "none", plot.subtitle = element_text(hjust = 0.5))   + 
+  labs(title = "", subtitle = "Constant") + xlab("") + ylab("")
+
+ggarrange(p1, p2, nrow = 1)
+```
+
+### Local constant method 
+the mean is calculated in some intervals for example day of the week. Local mean, lookaup tables
+substitute the missing values in the data with a values calculated locally. This process is carried out through Lookup Tables.
+
+```{r}
+data.frame(Day = c("Mon", "Tue"), Mean = c(1,2)) %>%
+  knitr::kable(caption = "Raw gapminder data for Australia.")
+```
+
+### Moving Average
+
+Method based on moving averages consist in substitute missing values with an expression computed on the N previous valid measures. There are different kind of mooving averages: Simple, Linear Weighted, Exponential. In this case the simple moving average (SMA) is considered. 
+
+In this particular case the SMA is defined as follows:
+$$
+\begin{equation}
+y = \frac{1}{N}\sum_{i=1}^n{y_{-i}}
+\end{equation}
+$$
+
+Where $n$ is chosen by the analyst. For building energy data it usually renges from from 4 to 10.
+
+In Figure \@ref(fig:SMA-method) is presented an example of imputation of the electrical load dataset with simple moving average with $n = 4$. 
+
+```{r, SMA-method, echo = TRUE, message = FALSE, warning = FALSE, fig.dim = c(8, 4), fig.cap="Simple mooving average method applied on the electrical load dataset. In blue the known values and in red the missing values replacement"}
+imp <- na_ma(df$Total_Power, k = 4)
+
+ggplot_na_imputations(df$Total_Power, imp) +  
+  theme_classic() + theme(legend.position = "none") + 
+  labs(title = "", subtitle = "") + xlab("") + ylab("Electrical load [kW]")
+```
+
+
+### Linear interpolation method
+
+Another method for missing values replacement is the interpolation. There are different types of interpolation: linear, spline or polynomial. In this framework only linear interpolation is considered since it is the most common, simple and provides results similar to more complex interpolation methods.
+
+Linear interpolation substitute missing values with the values that lies on the straight line between two valid measures. Given two points $P_i = (x_i,y_i)$ and $P_{i+1} = (x_{i+1},y_{i+1})$ the equation of the line can be obtained as follows:
+
+$$
+\begin{equation}
+\frac{y-y_i}{y_{i+1}-y_i}  = \frac{x-x_i}{x_{i+1}-x_i}
+\end{equation}
+$$
+
+In Figure \@ref(fig:interpolation-method) is presented an example of imputation of the electrical load dataset with simple linear interpolation. 
+```{r, interpolation-method, echo = TRUE, message = FALSE, warning = FALSE, fig.dim = c(8, 4), fig.cap="Interpolation method applied on the electrical load dataset. In blue the known values and in red the missing values replacement"}
+imp <- na_interpolation(df$Total_Power)
+ggplot_na_imputations(df$Total_Power, imp) +  
+   theme_classic() + theme(legend.position = "none") + 
+  labs(title = "", subtitle = "") + xlab("") + ylab("Electrical load [kW]")
+```
+
