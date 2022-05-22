@@ -4,34 +4,37 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 1 Machine Learning Metrics | 08_MLmetrics.utf8</title>
-  <meta name="description" content="" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <title>Chapter 8 Machine Learning Metrics | Data mining methods for building energy data</title>
+  <meta name="description" content="Chapter 8 Machine Learning Metrics | Data mining methods for building energy data" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 1 Machine Learning Metrics | 08_MLmetrics.utf8" />
+  <meta property="og:title" content="Chapter 8 Machine Learning Metrics | Data mining methods for building energy data" />
   <meta property="og:type" content="book" />
   
+  <meta property="og:image" content="/images/logo-black.png" />
   
-  
-  
+  <meta name="github-repo" content="https://github.com/RobertoChiosa/APPUNTI" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 1 Machine Learning Metrics | 08_MLmetrics.utf8" />
+  <meta name="twitter:title" content="Chapter 8 Machine Learning Metrics | Data mining methods for building energy data" />
   
   
-  
+  <meta name="twitter:image" content="/images/logo-black.png" />
 
 
 
+<meta name="date" content="2022-01-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="prev" href="aws.html"/>
+<link rel="next" href="appendix-a.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -47,10 +50,104 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/d3-4.10.2/d3.min.js"></script>
+<script src="libs/forceNetwork-binding-0.4/forceNetwork.js"></script>
+<link href="libs/collapsibleTree-0.1.6/collapsibleTree.css" rel="stylesheet" />
+<script src="libs/collapsibleTree-binding-0.1.7/collapsibleTree.js"></script>
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -68,25 +165,108 @@
 <li><a href="./">Data mining methods for building energy data</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path=""><a href="#machine-learning-metrics"><i class="fa fa-check"></i><b>1</b> Machine Learning Metrics</a><ul>
-<li class="chapter" data-level="1.1" data-path=""><a href="#classification-metrics"><i class="fa fa-check"></i><b>1.1</b> Classification Metrics</a><ul>
-<li class="chapter" data-level="1.1.1" data-path=""><a href="#confusion-metrics"><i class="fa fa-check"></i><b>1.1.1</b> Confusion metrics</a></li>
-<li class="chapter" data-level="1.1.2" data-path=""><a href="#accuracy"><i class="fa fa-check"></i><b>1.1.2</b> Accuracy</a></li>
-<li class="chapter" data-level="1.1.3" data-path=""><a href="#precision"><i class="fa fa-check"></i><b>1.1.3</b> Precision</a></li>
-<li class="chapter" data-level="1.1.4" data-path=""><a href="#recall"><i class="fa fa-check"></i><b>1.1.4</b> Recall</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="building-related-data.html"><a href="building-related-data.html"><i class="fa fa-check"></i><b>1</b> Building related data</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="building-related-data.html"><a href="building-related-data.html#influencing-variables"><i class="fa fa-check"></i><b>1.1</b> influencing variables</a></li>
+<li class="chapter" data-level="1.2" data-path="building-related-data.html"><a href="building-related-data.html#time-series"><i class="fa fa-check"></i><b>1.2</b> Time series</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path=""><a href="#regression-metrics"><i class="fa fa-check"></i><b>1.2</b> Regression Metrics</a><ul>
-<li class="chapter" data-level="1.2.1" data-path=""><a href="#mean-squared-error-mse"><i class="fa fa-check"></i><b>1.2.1</b> Mean Squared Error (MSE)</a></li>
-<li class="chapter" data-level="1.2.2" data-path=""><a href="#root-mean-squared-error-rmse"><i class="fa fa-check"></i><b>1.2.2</b> Root Mean Squared Error (RMSE)</a></li>
-<li class="chapter" data-level="1.2.3" data-path=""><a href="#root-mean-squared-percentage-error-rmspe"><i class="fa fa-check"></i><b>1.2.3</b> Root Mean Squared Percentage Error (RMSPE)</a></li>
-<li class="chapter" data-level="1.2.4" data-path=""><a href="#mean-absolute-error-mae"><i class="fa fa-check"></i><b>1.2.4</b> Mean Absolute Error (MAE)</a></li>
-<li class="chapter" data-level="1.2.5" data-path=""><a href="#mean-absolute-percentage-error-mape"><i class="fa fa-check"></i><b>1.2.5</b> Mean Absolute Percentage Error (MAPE)</a></li>
-<li class="chapter" data-level="1.2.6" data-path=""><a href="#median-absolute-percentage-error-medianape"><i class="fa fa-check"></i><b>1.2.6</b> Median Absolute Percentage Error (MedianAPE)</a></li>
-<li class="chapter" data-level="1.2.7" data-path=""><a href="#root-absolute-error-rae"><i class="fa fa-check"></i><b>1.2.7</b> Root Absolute Error (RAE)</a></li>
-<li class="chapter" data-level="1.2.8" data-path=""><a href="#r2-r2_score"><i class="fa fa-check"></i><b>1.2.8</b> R2 (R2_Score)</a></li>
-<li class="chapter" data-level="1.2.9" data-path=""><a href="#adjusted-r2-r2_score"><i class="fa fa-check"></i><b>1.2.9</b> Adjusted R2 (R2_Score)}</a></li>
+<li class="chapter" data-level="2" data-path="data-visualization.html"><a href="data-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="2.0.1" data-path="data-visualization.html"><a href="data-visualization.html#sec:boxplots"><i class="fa fa-check"></i><b>2.0.1</b> Box plots</a></li>
+<li class="chapter" data-level="2.0.2" data-path="data-visualization.html"><a href="data-visualization.html#carpet-plots"><i class="fa fa-check"></i><b>2.0.2</b> carpet plots</a></li>
+<li class="chapter" data-level="2.0.3" data-path="data-visualization.html"><a href="data-visualization.html#calendar-plots"><i class="fa fa-check"></i><b>2.0.3</b> calendar plots</a></li>
+<li class="chapter" data-level="2.0.4" data-path="data-visualization.html"><a href="data-visualization.html#network"><i class="fa fa-check"></i><b>2.0.4</b> Network</a></li>
+<li class="chapter" data-level="2.0.5" data-path="data-visualization.html"><a href="data-visualization.html#tree"><i class="fa fa-check"></i><b>2.0.5</b> tree</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>3</b> Data cleaning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inconsistences"><i class="fa fa-check"></i><b>3.1</b> Inconsistences</a></li>
+<li class="chapter" data-level="3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#outliers"><i class="fa fa-check"></i><b>3.2</b> Outliers</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inter-quartile-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.1</b> Inter-quartile method for punctual outlier identification</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#z-score-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.2</b> Z-score method for punctual outlier identification</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#missing-values"><i class="fa fa-check"></i><b>3.3</b> Missing values</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#global-constant-method"><i class="fa fa-check"></i><b>3.3.1</b> Global constant method</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#local-constant-method"><i class="fa fa-check"></i><b>3.3.2</b> Local constant method</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#moving-average"><i class="fa fa-check"></i><b>3.3.3</b> Moving Average</a></li>
+<li class="chapter" data-level="3.3.4" data-path="data-cleaning.html"><a href="data-cleaning.html#linear-interpolation-method"><i class="fa fa-check"></i><b>3.3.4</b> Linear interpolation method</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>4</b> data transformation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-transformation.html"><a href="data-transformation.html#data-scaling"><i class="fa fa-check"></i><b>4.1</b> data scaling</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="data-transformation.html"><a href="data-transformation.html#max-scaling"><i class="fa fa-check"></i><b>4.1.1</b> Max scaling</a></li>
+<li class="chapter" data-level="4.1.2" data-path="data-transformation.html"><a href="data-transformation.html#min-max-scaling"><i class="fa fa-check"></i><b>4.1.2</b> Min Max scaling</a></li>
+<li class="chapter" data-level="4.1.3" data-path="data-transformation.html"><a href="data-transformation.html#normalization"><i class="fa fa-check"></i><b>4.1.3</b> normalization</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="data-transformation.html"><a href="data-transformation.html#data-type-transformation-aggregation"><i class="fa fa-check"></i><b>4.2</b> data type transformation aggregation</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="data-transformation.html"><a href="data-transformation.html#equally-width-bins"><i class="fa fa-check"></i><b>4.2.1</b> equally width bins</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-transformation.html"><a href="data-transformation.html#equally-frequency-bins"><i class="fa fa-check"></i><b>4.2.2</b> equally frequency bins</a></li>
+<li class="chapter" data-level="4.2.3" data-path="data-transformation.html"><a href="data-transformation.html#integer-encoding"><i class="fa fa-check"></i><b>4.2.3</b> integer encoding</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-transformation.html"><a href="data-transformation.html#data-reduction"><i class="fa fa-check"></i><b>4.3</b> data reduction</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="data-transformation.html"><a href="data-transformation.html#piecawise-aggregate-approximation-paa"><i class="fa fa-check"></i><b>4.3.1</b> Piecawise Aggregate Approximation (PAA)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-segmentation"><i class="fa fa-check"></i><b>4.3.2</b> data segmentation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="data-transformation.html"><a href="data-transformation.html#visualization"><i class="fa fa-check"></i><b>4.4</b> Visualization</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>5</b> unsupervised learning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>5.1</b> clustering</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#partitive"><i class="fa fa-check"></i><b>5.1.1</b> partitive</a></li>
+<li class="chapter" data-level="5.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical"><i class="fa fa-check"></i><b>5.1.2</b> hierarchical</a></li>
+<li class="chapter" data-level="5.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#density"><i class="fa fa-check"></i><b>5.1.3</b> density</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#arm"><i class="fa fa-check"></i><b>5.2</b> ARM</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>6</b> supervised learning</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="supervised-learning.html"><a href="supervised-learning.html#classification"><i class="fa fa-check"></i><b>6.1</b> classification</a></li>
+<li class="chapter" data-level="6.2" data-path="supervised-learning.html"><a href="supervised-learning.html#regression"><i class="fa fa-check"></i><b>6.2</b> regression</a></li>
+<li class="chapter" data-level="6.3" data-path="supervised-learning.html"><a href="supervised-learning.html#forecasting"><i class="fa fa-check"></i><b>6.3</b> forecasting</a></li>
+<li class="chapter" data-level="6.4" data-path="supervised-learning.html"><a href="supervised-learning.html#benchmarking"><i class="fa fa-check"></i><b>6.4</b> benchmarking</a></li>
+<li class="chapter" data-level="6.5" data-path="supervised-learning.html"><a href="supervised-learning.html#artificial-neural-network"><i class="fa fa-check"></i><b>6.5</b> artificial neural network</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="aws.html"><a href="aws.html"><i class="fa fa-check"></i><b>7</b> AWS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="aws.html"><a href="aws.html#classification-1"><i class="fa fa-check"></i><b>7.1</b> classification</a></li>
+<li class="chapter" data-level="7.2" data-path="aws.html"><a href="aws.html#regression-1"><i class="fa fa-check"></i><b>7.2</b> regression</a></li>
+<li class="chapter" data-level="7.3" data-path="aws.html"><a href="aws.html#forecasting-1"><i class="fa fa-check"></i><b>7.3</b> forecasting</a></li>
+<li class="chapter" data-level="7.4" data-path="aws.html"><a href="aws.html#benchmarking-1"><i class="fa fa-check"></i><b>7.4</b> benchmarking</a></li>
+<li class="chapter" data-level="7.5" data-path="aws.html"><a href="aws.html#artificial-neural-network-1"><i class="fa fa-check"></i><b>7.5</b> artificial neural network</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html"><i class="fa fa-check"></i><b>8</b> Machine Learning Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#classification-metrics"><i class="fa fa-check"></i><b>8.1</b> Classification Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#confusion-metrics"><i class="fa fa-check"></i><b>8.1.1</b> Confusion metrics</a></li>
+<li class="chapter" data-level="8.1.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#accuracy"><i class="fa fa-check"></i><b>8.1.2</b> Accuracy</a></li>
+<li class="chapter" data-level="8.1.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#precision"><i class="fa fa-check"></i><b>8.1.3</b> Precision</a></li>
+<li class="chapter" data-level="8.1.4" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#recall"><i class="fa fa-check"></i><b>8.1.4</b> Recall</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#regression-metrics"><i class="fa fa-check"></i><b>8.2</b> Regression Metrics</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-squared-error-mse"><i class="fa fa-check"></i><b>8.2.1</b> Mean Squared Error (MSE)</a></li>
+<li class="chapter" data-level="8.2.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-error-rmse"><i class="fa fa-check"></i><b>8.2.2</b> Root Mean Squared Error (RMSE)</a></li>
+<li class="chapter" data-level="8.2.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-percentage-error-rmspe"><i class="fa fa-check"></i><b>8.2.3</b> Root Mean Squared Percentage Error (RMSPE)</a></li>
+<li class="chapter" data-level="8.2.4" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-absolute-error-mae"><i class="fa fa-check"></i><b>8.2.4</b> Mean Absolute Error (MAE)</a></li>
+<li class="chapter" data-level="8.2.5" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-absolute-percentage-error-mape"><i class="fa fa-check"></i><b>8.2.5</b> Mean Absolute Percentage Error (MAPE)</a></li>
+<li class="chapter" data-level="8.2.6" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#median-absolute-percentage-error-medianape"><i class="fa fa-check"></i><b>8.2.6</b> Median Absolute Percentage Error (MedianAPE)</a></li>
+<li class="chapter" data-level="8.2.7" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-absolute-error-rae"><i class="fa fa-check"></i><b>8.2.7</b> Root Absolute Error (RAE)</a></li>
+<li class="chapter" data-level="8.2.8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#r2-r2_score"><i class="fa fa-check"></i><b>8.2.8</b> R2 (R2_Score)</a></li>
+<li class="chapter" data-level="8.2.9" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#adjusted-r2-r2_score"><i class="fa fa-check"></i><b>8.2.9</b> Adjusted R2 (R2_Score)}</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a></li>
+<li class="chapter" data-level="B" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>B</b> Appendix B</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -99,7 +279,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data mining methods for building energy data</a>
           </h1>
         </div>
 
@@ -107,30 +287,28 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<!--bookdown:title:end-->
-<!--bookdown:title:start-->
-<div id="machine-learning-metrics" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Machine Learning Metrics</h1>
-<div id="classification-metrics" class="section level2">
-<h2><span class="header-section-number">1.1</span> Classification Metrics</h2>
-<div id="confusion-metrics" class="section level3">
-<h3><span class="header-section-number">1.1.1</span> Confusion metrics</h3>
+<div id="machine-learning-metrics" class="section level1" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Machine Learning Metrics</h1>
+<div id="classification-metrics" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Classification Metrics</h2>
+<div id="confusion-metrics" class="section level3" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Confusion metrics</h3>
 </div>
-<div id="accuracy" class="section level3">
-<h3><span class="header-section-number">1.1.2</span> Accuracy</h3>
+<div id="accuracy" class="section level3" number="8.1.2">
+<h3><span class="header-section-number">8.1.2</span> Accuracy</h3>
 </div>
-<div id="precision" class="section level3">
-<h3><span class="header-section-number">1.1.3</span> Precision</h3>
+<div id="precision" class="section level3" number="8.1.3">
+<h3><span class="header-section-number">8.1.3</span> Precision</h3>
 </div>
-<div id="recall" class="section level3">
-<h3><span class="header-section-number">1.1.4</span> Recall</h3>
+<div id="recall" class="section level3" number="8.1.4">
+<h3><span class="header-section-number">8.1.4</span> Recall</h3>
 </div>
 </div>
-<div id="regression-metrics" class="section level2">
-<h2><span class="header-section-number">1.2</span> Regression Metrics</h2>
+<div id="regression-metrics" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Regression Metrics</h2>
 <p>Let’s assume we have a regression model which predicts a given variable (<span class="math inline">\(\hat{y}_i\)</span>), and let’s say we also have the actual value of the given variable (<span class="math inline">\(y_i\)</span>).</p>
-<div id="mean-squared-error-mse" class="section level3">
-<h3><span class="header-section-number">1.2.1</span> Mean Squared Error (MSE)</h3>
+<div id="mean-squared-error-mse" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Mean Squared Error (MSE)</h3>
 <p>It shows the average deviation between actual value and predicted value. It is calculated as follows:
 <span class="math display">\[\begin{equation}
     MSE = \frac{1}{N}\sum_{i=1}^N{(y_i-\hat{y}_i)^2}
@@ -139,8 +317,8 @@
 <p>Thus, before applying MSE, we must eliminate all nulls/infinites from the input and keep in mind that it is not robust to outliers. The unit of measure of MSE is not the original one because the variables are squared.</p>
 <p>By definition its value ranges in the interval <span class="math inline">\((0, + \infty]\)</span>, smaller the MSE better the prediction.</p>
 </div>
-<div id="root-mean-squared-error-rmse" class="section level3">
-<h3><span class="header-section-number">1.2.2</span> Root Mean Squared Error (RMSE)</h3>
+<div id="root-mean-squared-error-rmse" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Root Mean Squared Error (RMSE)</h3>
 <p>This metrics is the square root of MSE and is defines ad follows:
 <span class="math display">\[\begin{equation}
     RMSE = \sqrt{\frac{1}{N}\sum_{i=1}^N{(y_i-\hat{y}_i})^2}
@@ -148,15 +326,15 @@
 <p>The RMSE is analogous to the standard deviation and is a measure of how large the residuals are spread out. Since it derives from the MSE definition it is similarly affected by the outliers. Generally, RMSE will be higher than or equal to MAE but it has the same units of measure of the predicted value.</p>
 <p>RMSE is always non-negative, and a value of 0 (almost never achieved in practice) would indicate a perfect fit to the data. In general, a lower RMSD is better than a higher one. However, comparisons across different types of data would be invalid because the measure is dependent on the scale of the numbers used.</p>
 </div>
-<div id="root-mean-squared-percentage-error-rmspe" class="section level3">
-<h3><span class="header-section-number">1.2.3</span> Root Mean Squared Percentage Error (RMSPE)</h3>
+<div id="root-mean-squared-percentage-error-rmspe" class="section level3" number="8.2.3">
+<h3><span class="header-section-number">8.2.3</span> Root Mean Squared Percentage Error (RMSPE)</h3>
 <p>In some cases is useful to express the RMSE in percentage, the relative metrics is RMSPE and is defined ad follows:
 <span class="math display">\[\begin{equation}
     RMSPE = \bigg( \sqrt{\frac{1}{N}\sum_{i=1}^N{ \frac{(y_i-\hat{y}_i)^2}{y_i}  }} \bigg)*100
 \end{equation}\]</span></p>
 </div>
-<div id="mean-absolute-error-mae" class="section level3">
-<h3><span class="header-section-number">1.2.4</span> Mean Absolute Error (MAE)</h3>
+<div id="mean-absolute-error-mae" class="section level3" number="8.2.4">
+<h3><span class="header-section-number">8.2.4</span> Mean Absolute Error (MAE)</h3>
 <p>It finds the average absolute distance between the predicted and target variables. It is robust to outliers compared to MSE, the main reason being that in MSE by squaring the errors, the outliers (which usually have higher errors than other samples) get more attention and dominance in the final error and impacting the model parameters. However, they don’t gives us any idea of the direction of the error i.e. whether we are under predicting the data or over predicting the data.</p>
 <p><span class="math display">\[\begin{equation}
     MAE = \frac{1}{N}\sum_{i=1}^N{|y_i-\hat{y}_i|}
@@ -164,22 +342,22 @@
 <p>MAE possesses advantages in interpretability over RMSD. MAE is the average of the absolute values of the errors. Furthermore, each error influences MAE in direct proportion to the absolute value of the error, which is not the case for RMSD. Since it doesn’t squares the outliers it is more robust to outliers.</p>
 <p>MAE ranges in the interval <span class="math inline">\((0, + \infty]\)</span>, maller the MAE, better is the model.</p>
 </div>
-<div id="mean-absolute-percentage-error-mape" class="section level3">
-<h3><span class="header-section-number">1.2.5</span> Mean Absolute Percentage Error (MAPE)</h3>
+<div id="mean-absolute-percentage-error-mape" class="section level3" number="8.2.5">
+<h3><span class="header-section-number">8.2.5</span> Mean Absolute Percentage Error (MAPE)</h3>
 <p>The MAE can be expressed as percentage as follows:</p>
 <p><span class="math display">\[\begin{equation}
     MAPE = \frac{1}{N}\sum_{i=1}^N{  \bigg| \frac{y_i-\hat{y}_i}{y_i} \bigg|   }
 \end{equation}\]</span></p>
 <p>This definition permits a better interpretability but some problems can occur when calculating the MAPE value with a series of small denominators. Moreover it does not fit for methods comparison when the order of magnotude of the predicted value varies significantly.</p>
 </div>
-<div id="median-absolute-percentage-error-medianape" class="section level3">
-<h3><span class="header-section-number">1.2.6</span> Median Absolute Percentage Error (MedianAPE)</h3>
+<div id="median-absolute-percentage-error-medianape" class="section level3" number="8.2.6">
+<h3><span class="header-section-number">8.2.6</span> Median Absolute Percentage Error (MedianAPE)</h3>
 </div>
-<div id="root-absolute-error-rae" class="section level3">
-<h3><span class="header-section-number">1.2.7</span> Root Absolute Error (RAE)</h3>
+<div id="root-absolute-error-rae" class="section level3" number="8.2.7">
+<h3><span class="header-section-number">8.2.7</span> Root Absolute Error (RAE)</h3>
 </div>
-<div id="r2-r2_score" class="section level3">
-<h3><span class="header-section-number">1.2.8</span> R2 (R2_Score)</h3>
+<div id="r2-r2_score" class="section level3" number="8.2.8">
+<h3><span class="header-section-number">8.2.8</span> R2 (R2_Score)</h3>
 <p>R Squared metric is generally used for explanatory purpose and provides an indication of the goodness or fit of a set of predicted output values to the actual output values.</p>
 <p><span class="math display">\[\begin{equation}
     R^2 = \frac{MSE_{model}}{MSE_{baseline}} = \frac{}{}
@@ -190,22 +368,25 @@
 </ul>
 <p><a href="https://medium.com/human-in-a-machine-world/mae-and-rmse-which-metric-is-better-e60ac3bde13d#" class="uri">https://medium.com/human-in-a-machine-world/mae-and-rmse-which-metric-is-better-e60ac3bde13d#</a>:~:text=Definitions,predictions%2C%20without%20considering%20their%20direction.&amp;text=Root%20mean%20squared%20error%20(RMSE)%3A%20RMSE%20is%20a%20quadratic,average%20magnitude%20of%20the%20error.</p>
 </div>
-<div id="adjusted-r2-r2_score" class="section level3">
-<h3><span class="header-section-number">1.2.9</span> Adjusted R2 (R2_Score)}</h3>
+<div id="adjusted-r2-r2_score" class="section level3" number="8.2.9">
+<h3><span class="header-section-number">8.2.9</span> Adjusted R2 (R2_Score)}</h3>
+
 </div>
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="aws.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix-a.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -224,6 +405,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {
@@ -232,7 +414,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/master/%s",
+"link": "https://github.com/RobertoChiosa/APPUNTI/master/08_MLmetrics.Rmd",
 "text": "Suggest an edit"
 },
 "history": {
@@ -240,16 +422,19 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/blob/master/%s",
+"link": "https://github.com/RobertoChiosa/APPUNTI/blob/master/08_MLmetrics.Rmd",
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection",
 "download": ["pdf", "epub"],
 "scroll_highlight": true
-},
-"search": false
+}
 });
 });
 </script>

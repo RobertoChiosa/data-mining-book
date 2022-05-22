@@ -4,27 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 unsupervised learning | Data mining methods for building energy data</title>
-  <meta name="description" content="Chapter 4 unsupervised learning | Data mining methods for building energy data" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <title>Chapter 5 Unsupervised learning | Data mining methods for building energy data</title>
+  <meta name="description" content="Chapter 5 Unsupervised learning | Data mining methods for building energy data" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 unsupervised learning | Data mining methods for building energy data" />
+  <meta property="og:title" content="Chapter 5 Unsupervised learning | Data mining methods for building energy data" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:image" content="images/logo-black.png" />
+  <meta property="og:image" content="/images/logo-black.png" />
   
   <meta name="github-repo" content="https://github.com/RobertoChiosa/APPUNTI" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 unsupervised learning | Data mining methods for building energy data" />
+  <meta name="twitter:title" content="Chapter 5 Unsupervised learning | Data mining methods for building energy data" />
   
   
-  <meta name="twitter:image" content="images/logo-black.png" />
-
-<meta name="author" content="Roberto Chiosa" />
+  <meta name="twitter:image" content="/images/logo-black.png" />
 
 
-<meta name="date" content="2021-01-12" />
+
+<meta name="date" content="2022-01-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,9 @@
   
 <link rel="prev" href="data-transformation.html"/>
 <link rel="next" href="supervised-learning.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,30 +50,23 @@
 
 
 
-
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
-<script src="libs/d3-4.10.2/d3.min.js"></script>
-<script src="libs/forceNetwork-binding-0.4/forceNetwork.js"></script>
-<link href="libs/collapsibleTree-0.1.6/collapsibleTree.css" rel="stylesheet" />
-<script src="libs/collapsibleTree-binding-0.1.7/collapsibleTree.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +86,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -125,6 +119,29 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -141,63 +158,118 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Data mining methods for building energy data</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Author</a></li>
-<li class="chapter" data-level="1" data-path="building-related-data.html"><a href="building-related-data.html"><i class="fa fa-check"></i><b>1</b> Building related data</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="building-related-data.html"><a href="building-related-data.html"><i class="fa fa-check"></i><b>1</b> Building related data</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="building-related-data.html"><a href="building-related-data.html#influencing-variables"><i class="fa fa-check"></i><b>1.1</b> influencing variables</a></li>
 <li class="chapter" data-level="1.2" data-path="building-related-data.html"><a href="building-related-data.html#time-series"><i class="fa fa-check"></i><b>1.2</b> Time series</a></li>
-<li class="chapter" data-level="1.3" data-path="building-related-data.html"><a href="building-related-data.html#visualizations"><i class="fa fa-check"></i><b>1.3</b> Visualizations</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="building-related-data.html"><a href="building-related-data.html#sec:boxplots"><i class="fa fa-check"></i><b>1.3.1</b> Box plots</a></li>
-<li class="chapter" data-level="1.3.2" data-path="building-related-data.html"><a href="building-related-data.html#scatter-plots"><i class="fa fa-check"></i><b>1.3.2</b> scatter plots</a></li>
-<li class="chapter" data-level="1.3.3" data-path="building-related-data.html"><a href="building-related-data.html#carpet-plots"><i class="fa fa-check"></i><b>1.3.3</b> carpet plots</a></li>
-<li class="chapter" data-level="1.3.4" data-path="building-related-data.html"><a href="building-related-data.html#calendar-plots"><i class="fa fa-check"></i><b>1.3.4</b> calendar plots</a></li>
-<li class="chapter" data-level="1.3.5" data-path="building-related-data.html"><a href="building-related-data.html#network"><i class="fa fa-check"></i><b>1.3.5</b> Network</a></li>
-<li class="chapter" data-level="1.3.6" data-path="building-related-data.html"><a href="building-related-data.html#tree"><i class="fa fa-check"></i><b>1.3.6</b> tree</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualization.html"><a href="data-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="2.0.1" data-path="data-visualization.html"><a href="data-visualization.html#sec:boxplots"><i class="fa fa-check"></i><b>2.0.1</b> Box plots</a></li>
+<li class="chapter" data-level="2.0.2" data-path="data-visualization.html"><a href="data-visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.0.2</b> scatter plots</a></li>
+<li class="chapter" data-level="2.0.3" data-path="data-visualization.html"><a href="data-visualization.html#carpet-plots"><i class="fa fa-check"></i><b>2.0.3</b> carpet plots</a></li>
+<li class="chapter" data-level="2.0.4" data-path="data-visualization.html"><a href="data-visualization.html#calendar-plots"><i class="fa fa-check"></i><b>2.0.4</b> calendar plots</a></li>
+<li class="chapter" data-level="2.0.5" data-path="data-visualization.html"><a href="data-visualization.html#network"><i class="fa fa-check"></i><b>2.0.5</b> Network</a></li>
+<li class="chapter" data-level="2.0.6" data-path="data-visualization.html"><a href="data-visualization.html#tree"><i class="fa fa-check"></i><b>2.0.6</b> tree</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>3</b> Data cleaning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inconsistences"><i class="fa fa-check"></i><b>3.1</b> Inconsistences</a></li>
+<li class="chapter" data-level="3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#outliers"><i class="fa fa-check"></i><b>3.2</b> Outliers</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inter-quartile-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.1</b> Inter-quartile method for punctual outlier identification</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#z-score-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.2</b> Z-score method for punctual outlier identification</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#missing-values"><i class="fa fa-check"></i><b>3.3</b> Missing values</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#global-constant-method"><i class="fa fa-check"></i><b>3.3.1</b> Global constant method</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#local-constant-method"><i class="fa fa-check"></i><b>3.3.2</b> Local constant method</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#moving-average"><i class="fa fa-check"></i><b>3.3.3</b> Moving Average</a></li>
+<li class="chapter" data-level="3.3.4" data-path="data-cleaning.html"><a href="data-cleaning.html#linear-interpolation-method"><i class="fa fa-check"></i><b>3.3.4</b> Linear interpolation method</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>2</b> Data cleaning</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inconsistences"><i class="fa fa-check"></i><b>2.1</b> Inconsistences</a></li>
-<li class="chapter" data-level="2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#outliers"><i class="fa fa-check"></i><b>2.2</b> Outliers</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inter-quartile-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>2.2.1</b> Inter-quartile method for punctual outlier identification</a></li>
-<li class="chapter" data-level="2.2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#z-score-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>2.2.2</b> Z-score method for punctual outlier identification</a></li>
+<li class="chapter" data-level="4" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-transformation.html"><a href="data-transformation.html#data-scaling"><i class="fa fa-check"></i><b>4.1</b> data scaling</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="data-transformation.html"><a href="data-transformation.html#max-scaling"><i class="fa fa-check"></i><b>4.1.1</b> Max scaling</a></li>
+<li class="chapter" data-level="4.1.2" data-path="data-transformation.html"><a href="data-transformation.html#min-max-scaling"><i class="fa fa-check"></i><b>4.1.2</b> Min Max scaling</a></li>
+<li class="chapter" data-level="4.1.3" data-path="data-transformation.html"><a href="data-transformation.html#normalization"><i class="fa fa-check"></i><b>4.1.3</b> normalization</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="data-cleaning.html"><a href="data-cleaning.html#missing-values"><i class="fa fa-check"></i><b>2.3</b> Missing values</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#global-constant-method"><i class="fa fa-check"></i><b>2.3.1</b> Global constant method</a></li>
-<li class="chapter" data-level="2.3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#local-constant-method"><i class="fa fa-check"></i><b>2.3.2</b> Local constant method</a></li>
-<li class="chapter" data-level="2.3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#moving-average"><i class="fa fa-check"></i><b>2.3.3</b> Moving Average</a></li>
-<li class="chapter" data-level="2.3.4" data-path="data-cleaning.html"><a href="data-cleaning.html#linear-interpolation-method"><i class="fa fa-check"></i><b>2.3.4</b> Linear interpolation method</a></li>
+<li class="chapter" data-level="4.2" data-path="data-transformation.html"><a href="data-transformation.html#data-type-transformation-aggregation"><i class="fa fa-check"></i><b>4.2</b> data type transformation aggregation</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="data-transformation.html"><a href="data-transformation.html#equally-width-bins"><i class="fa fa-check"></i><b>4.2.1</b> equally width bins</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-transformation.html"><a href="data-transformation.html#equally-frequency-bins"><i class="fa fa-check"></i><b>4.2.2</b> equally frequency bins</a></li>
+<li class="chapter" data-level="4.2.3" data-path="data-transformation.html"><a href="data-transformation.html#integer-encoding"><i class="fa fa-check"></i><b>4.2.3</b> integer encoding</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-transformation.html"><a href="data-transformation.html#data-reduction"><i class="fa fa-check"></i><b>4.3</b> data reduction</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="data-transformation.html"><a href="data-transformation.html#piecawise-aggregate-approximation-paa"><i class="fa fa-check"></i><b>4.3.1</b> Piecawise Aggregate Approximation (PAA)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-segmentation"><i class="fa fa-check"></i><b>4.3.2</b> data segmentation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="data-transformation.html"><a href="data-transformation.html#visualization"><i class="fa fa-check"></i><b>4.4</b> Visualization</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clusters-type"><i class="fa fa-check"></i><b>5.1.1</b> Clusters type</a></li>
+<li class="chapter" data-level="5.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering-algorithms"><i class="fa fa-check"></i><b>5.1.2</b> Clustering algorithms</a></li>
+<li class="chapter" data-level="5.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#k-means-clustering"><i class="fa fa-check"></i><b>5.1.3</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.1.4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.1.4</b> Hierarchical clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#association-rule-mining"><i class="fa fa-check"></i><b>5.2</b> Association rule mining</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#frequent-pattern-mining"><i class="fa fa-check"></i><b>5.2.1</b> Frequent Pattern Mining</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#association-rule-generation"><i class="fa fa-check"></i><b>5.2.2</b> Association rule generation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#frequent-itemset-mining-algorithms"><i class="fa fa-check"></i><b>5.2.3</b> Frequent Itemset Mining Algorithms</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> data transformation</a><ul>
-<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#data-scaling"><i class="fa fa-check"></i><b>3.1</b> data scaling</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="data-transformation.html"><a href="data-transformation.html#max-scaling"><i class="fa fa-check"></i><b>3.1.1</b> max scaling</a></li>
-<li class="chapter" data-level="3.1.2" data-path="data-transformation.html"><a href="data-transformation.html#min-max"><i class="fa fa-check"></i><b>3.1.2</b> min max</a></li>
-<li class="chapter" data-level="3.1.3" data-path="data-transformation.html"><a href="data-transformation.html#normalization"><i class="fa fa-check"></i><b>3.1.3</b> normalization</a></li>
+<li class="chapter" data-level="6" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>6</b> Supervised learning</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="supervised-learning.html"><a href="supervised-learning.html#classification"><i class="fa fa-check"></i><b>6.1</b> Classification</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#decision-trees"><i class="fa fa-check"></i><b>6.1.1</b> Decision trees</a></li>
+<li class="chapter" data-level="6.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#rule-based-classification"><i class="fa fa-check"></i><b>6.1.2</b> Rule-based classification</a></li>
+<li class="chapter" data-level="6.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#associative-classification"><i class="fa fa-check"></i><b>6.1.3</b> Associative classification</a></li>
+<li class="chapter" data-level="6.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forest-classifier"><i class="fa fa-check"></i><b>6.1.4</b> Random Forest Classifier</a></li>
+<li class="chapter" data-level="6.1.5" data-path="supervised-learning.html"><a href="supervised-learning.html#neural-networks"><i class="fa fa-check"></i><b>6.1.5</b> Neural Networks</a></li>
+<li class="chapter" data-level="6.1.6" data-path="supervised-learning.html"><a href="supervised-learning.html#bayesian-classification"><i class="fa fa-check"></i><b>6.1.6</b> Bayesian Classification</a></li>
+<li class="chapter" data-level="6.1.7" data-path="supervised-learning.html"><a href="supervised-learning.html#support-vector-machines-svm"><i class="fa fa-check"></i><b>6.1.7</b> Support Vector Machines (SVM)</a></li>
+<li class="chapter" data-level="6.1.8" data-path="supervised-learning.html"><a href="supervised-learning.html#support-vector-machines"><i class="fa fa-check"></i><b>6.1.8</b> Support Vector Machines</a></li>
+<li class="chapter" data-level="6.1.9" data-path="supervised-learning.html"><a href="supervised-learning.html#k-nearest-neighbor"><i class="fa fa-check"></i><b>6.1.9</b> K-Nearest Neighbor</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-type-transformation-aggregation"><i class="fa fa-check"></i><b>3.2</b> data type transformation aggregation</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="data-transformation.html"><a href="data-transformation.html#equally-width-bins"><i class="fa fa-check"></i><b>3.2.1</b> equally width bins</a></li>
-<li class="chapter" data-level="3.2.2" data-path="data-transformation.html"><a href="data-transformation.html#equally-frequency-bins"><i class="fa fa-check"></i><b>3.2.2</b> equally frequency bins</a></li>
-<li class="chapter" data-level="3.2.3" data-path="data-transformation.html"><a href="data-transformation.html#integer-encoding"><i class="fa fa-check"></i><b>3.2.3</b> integer encoding</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#data-reduction"><i class="fa fa-check"></i><b>3.3</b> data reduction</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="data-transformation.html"><a href="data-transformation.html#piecawise-aggregate-approximation-paa"><i class="fa fa-check"></i><b>3.3.1</b> Piecawise Aggregate Approximation (PAA)</a></li>
-<li class="chapter" data-level="3.3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-segmentation"><i class="fa fa-check"></i><b>3.3.2</b> data segmentation</a></li>
+<li class="chapter" data-level="7" data-path="aws.html"><a href="aws.html"><i class="fa fa-check"></i><b>7</b> AWS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="aws.html"><a href="aws.html#classification-1"><i class="fa fa-check"></i><b>7.1</b> classification</a></li>
+<li class="chapter" data-level="7.2" data-path="aws.html"><a href="aws.html#regression"><i class="fa fa-check"></i><b>7.2</b> regression</a></li>
+<li class="chapter" data-level="7.3" data-path="aws.html"><a href="aws.html#forecasting"><i class="fa fa-check"></i><b>7.3</b> forecasting</a></li>
+<li class="chapter" data-level="7.4" data-path="aws.html"><a href="aws.html#benchmarking"><i class="fa fa-check"></i><b>7.4</b> benchmarking</a></li>
+<li class="chapter" data-level="7.5" data-path="aws.html"><a href="aws.html#artificial-neural-network"><i class="fa fa-check"></i><b>7.5</b> artificial neural network</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#visualization"><i class="fa fa-check"></i><b>3.4</b> Visualization</a></li>
+<li class="chapter" data-level="8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html"><i class="fa fa-check"></i><b>8</b> Machine Learning Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#classification-metrics"><i class="fa fa-check"></i><b>8.1</b> Classification Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#confusion-metrics"><i class="fa fa-check"></i><b>8.1.1</b> Confusion metrics</a></li>
+<li class="chapter" data-level="8.1.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#accuracy"><i class="fa fa-check"></i><b>8.1.2</b> Accuracy</a></li>
+<li class="chapter" data-level="8.1.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#precision"><i class="fa fa-check"></i><b>8.1.3</b> Precision</a></li>
+<li class="chapter" data-level="8.1.4" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#recall"><i class="fa fa-check"></i><b>8.1.4</b> Recall</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>4</b> unsupervised learning</a><ul>
-<li class="chapter" data-level="4.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>4.1</b> clustering</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#partitive"><i class="fa fa-check"></i><b>4.1.1</b> partitive</a></li>
-<li class="chapter" data-level="4.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical"><i class="fa fa-check"></i><b>4.1.2</b> hierarchical</a></li>
-<li class="chapter" data-level="4.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#density"><i class="fa fa-check"></i><b>4.1.3</b> density</a></li>
+<li class="chapter" data-level="8.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#regression-metrics"><i class="fa fa-check"></i><b>8.2</b> Regression Metrics</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-squared-error-mse"><i class="fa fa-check"></i><b>8.2.1</b> Mean Squared Error (MSE)</a></li>
+<li class="chapter" data-level="8.2.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-error-rmse"><i class="fa fa-check"></i><b>8.2.2</b> Root Mean Squared Error (RMSE)</a></li>
+<li class="chapter" data-level="8.2.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-percentage-error-rmspe"><i class="fa fa-check"></i><b>8.2.3</b> Root Mean Squared Percentage Error (RMSPE)</a></li>
+<li class="chapter" data-level="8.2.4" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-absolute-error-mae"><i class="fa fa-check"></i><b>8.2.4</b> Mean Absolute Error (MAE)</a></li>
+<li class="chapter" data-level="8.2.5" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-absolute-percentage-error-mape"><i class="fa fa-check"></i><b>8.2.5</b> Mean Absolute Percentage Error (MAPE)</a></li>
+<li class="chapter" data-level="8.2.6" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#median-absolute-percentage-error-medianape"><i class="fa fa-check"></i><b>8.2.6</b> Median Absolute Percentage Error (MedianAPE)</a></li>
+<li class="chapter" data-level="8.2.7" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-absolute-error-rae"><i class="fa fa-check"></i><b>8.2.7</b> Root Absolute Error (RAE)</a></li>
+<li class="chapter" data-level="8.2.8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#r2-r2_score"><i class="fa fa-check"></i><b>8.2.8</b> R2 (R2_Score)</a></li>
+<li class="chapter" data-level="8.2.9" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#adjusted-r2-r2_score"><i class="fa fa-check"></i><b>8.2.9</b> Adjusted R2 (R2_Score)}</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#arm"><i class="fa fa-check"></i><b>4.2</b> ARM</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>5</b> supervised learning</a><ul>
-<li class="chapter" data-level="5.1" data-path="supervised-learning.html"><a href="supervised-learning.html#classification"><i class="fa fa-check"></i><b>5.1</b> classification</a></li>
-<li class="chapter" data-level="5.2" data-path="supervised-learning.html"><a href="supervised-learning.html#regression"><i class="fa fa-check"></i><b>5.2</b> regression</a></li>
-<li class="chapter" data-level="5.3" data-path="supervised-learning.html"><a href="supervised-learning.html#forecasting"><i class="fa fa-check"></i><b>5.3</b> forecasting</a></li>
-<li class="chapter" data-level="5.4" data-path="supervised-learning.html"><a href="supervised-learning.html#benchmarking"><i class="fa fa-check"></i><b>5.4</b> benchmarking</a></li>
-<li class="chapter" data-level="5.5" data-path="supervised-learning.html"><a href="supervised-learning.html#artificial-neural-network"><i class="fa fa-check"></i><b>5.5</b> artificial neural network</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a></li>
@@ -222,23 +294,274 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="unsupervised-learning" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> unsupervised learning</h1>
-<div id="clustering" class="section level2">
-<h2><span class="header-section-number">4.1</span> clustering</h2>
-<div id="partitive" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> partitive</h3>
+<div id="unsupervised-learning" class="section level1" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Unsupervised learning</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="unsupervised-learning.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div id="clustering" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Clustering</h2>
+<p>Clustering is the process of grouping instances based on similarity within some attributes of those instances. <span class="citation">(<a href="#ref-Tan2011" role="doc-biblioref"><strong>Tan2011?</strong></a>)</span> defines the objective of a clustering process as follows</p>
+<blockquote>
+<p>The goal is that the objects within a group be similar (or related) to one another and different from (or unrelated to) the objects in other groups. The greater the similarity (or homogeneity) within a group and the greater the difference between groups, the better or more distinct the clustering</p>
+</blockquote>
+<p>A more compact definition is provided by <span class="citation"><a href="#ref-Tan2019a7" role="doc-biblioref">Tan et al.</a> (<a href="#ref-Tan2019a7" role="doc-biblioref">2019</a>)</span>:</p>
+<blockquote>
+<p>The goal is to create groups (clusters) in which object shows remarkable similarities among them compared to objects of other clusters.</p>
+</blockquote>
+<p>Following this definition the the aim of clustering is to minimize intra-cluster distance
+and maximize inter-cluster distance (see figure). The similarity measure is usually defined with a mathematical formula (for example the euclidean distance), and the clustering algorithm aims to minimize this objective function.</p>
+<div class="figure" style="text-align: center">
+<img src="images/clustering_goal.png" alt="Clustering goal" width="100%" />
+<p class="caption">
+(#fig:clustering_goal)Clustering goal
+</p>
 </div>
-<div id="hierarchical" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> hierarchical</h3>
+<p>However, there is no right choice of the similarity metrics and the definition of clusters is intrinsically ambiguous and imprecise and that the best definition depends on the nature of data and the desired results.</p>
+<div id="clusters-type" class="section level3" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Clusters type</h3>
+<ul>
+<li><p><em>Well-separated clusters</em> are a set of objects in which each object is closer
+(or more similar) to every other object in the cluster than to any object not
+in the cluster.</p></li>
+<li><p><em>Prototype based clusters</em> are a set of objects in which each object is closer
+(more similar) to the prototype that defines the cluster than to the prototype
+of any other cluster. Many times the prototype can be considered as the most central point of the distribution (e.g., in a continuous attributes could be the mean or median value), in this case we refer to this as <em>center based</em> clusters</p></li>
+<li><p><em>Graph based clusters</em> are connected components (i.e., nodes) of a network structure. An example of graph based clusters are contiguity based clusters where two objects are connected only if they are within a specified distance of each other.</p></li>
+<li><p><em>Density-based clusters</em> are a dense region of objects that is surrounded by a region of low density.</p></li>
+<li><p><em>Property or Conceptual clusters</em> are a set of objects that share some property.</p></li>
+</ul>
 </div>
-<div id="density" class="section level3">
-<h3><span class="header-section-number">4.1.3</span> density</h3>
+<div id="clustering-algorithms" class="section level3" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Clustering algorithms</h3>
+<p>can be categorized in different fashon:</p>
+<ul>
+<li><em>Exclusive</em> versus <em>non-exclusive</em>.</li>
+<li><em>Fuzzy</em> versus <em>non-fuzzy</em></li>
+<li><em>Partial</em> versus <em>Complete</em>. A complete clustering assigns every object to a cluster while a partial does not. Partial clustering can be applied when some objects in a data set may not belong to a well defined group and the analyst prefers to not assign the object to a cluster, for example when the object represents an oultier, noise or uninteresting for the analysis.</li>
+<li><em>Heterogeneous</em> versus <em>homogeneous</em></li>
+<li><em>Partitional</em> vs <em>Hierarchical</em>. In the first case, the observations are divided into non-overlapping subsets called clusters. The hierarchical clustering generates non-overlapping clusters and each cluster can be further divided into sub-clusters and so on, creating a tree structure.</li>
+</ul>
+<p>In the following, the partitional K-means clustering and hierarchical clustering are presented. As an example the following dataset will be used for the implementation of clustering algorithms</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="unsupervised-learning.html#cb2-1" aria-hidden="true" tabindex="-1"></a>df_cluster <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="unsupervised-learning.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">point =</span> <span class="fu">paste0</span>(<span class="st">&quot;p&quot;</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)),</span>
+<span id="cb2-3"><a href="unsupervised-learning.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="fl">0.4005</span>, <span class="fl">0.2148</span>, <span class="fl">0.3457</span>, <span class="fl">0.2652</span>, <span class="fl">0.0789</span>, <span class="fl">0.4548</span>),</span>
+<span id="cb2-4"><a href="unsupervised-learning.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">0.5306</span>, <span class="fl">0.3854</span>, <span class="fl">0.3156</span>, <span class="fl">0.1875</span>, <span class="fl">0.4139</span>, <span class="fl">0.3022</span>)</span>
+<span id="cb2-5"><a href="unsupervised-learning.html#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="unsupervised-learning.html#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="unsupervised-learning.html#cb2-7" aria-hidden="true" tabindex="-1"></a>df_cluster<span class="sc">$</span>labels <span class="ot">&lt;-</span> <span class="fu">paste0</span>(df_cluster<span class="sc">$</span>point, <span class="st">&quot; = [&quot;</span>,df_cluster<span class="sc">$</span>x,<span class="st">&quot;,&quot;</span>,df_cluster<span class="sc">$</span>y,<span class="st">&quot;]&quot;</span>)</span>
+<span id="cb2-8"><a href="unsupervised-learning.html#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="unsupervised-learning.html#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="unsupervised-learning.html#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="unsupervised-learning.html#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> df_cluster,</span>
+<span id="cb2-12"><a href="unsupervised-learning.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> point)) <span class="sc">+</span></span>
+<span id="cb2-13"><a href="unsupervised-learning.html#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb2-14"><a href="unsupervised-learning.html#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape=</span><span class="dv">21</span>,</span>
+<span id="cb2-15"><a href="unsupervised-learning.html#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb2-16"><a href="unsupervised-learning.html#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;#D2FFD1&quot;</span>,</span>
+<span id="cb2-17"><a href="unsupervised-learning.html#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">5</span>,</span>
+<span id="cb2-18"><a href="unsupervised-learning.html#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke =</span> <span class="dv">1</span></span>
+<span id="cb2-19"><a href="unsupervised-learning.html#cb2-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="unsupervised-learning.html#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">nudge_x =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
+<span id="cb2-21"><a href="unsupervised-learning.html#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="co"># white bakground with lines</span></span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/dataset_definition-1.png" width="50%" /></p>
+</div>
+<div id="k-means-clustering" class="section level3" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> K-means clustering</h3>
+<p>K-means is a partitional prototype-based clustering. It defines the prototype as the mean point of a set of objects.</p>
+<p>Given a dataset <span class="math inline">\(D = \{x_1, \dots x_n\}\)</span> of <span class="math inline">\(n\)</span> instances, the user sets the number of clusters <span class="math inline">\(K\)</span> in which the dataset has to be divided, and the initial centroid <span class="math inline">\(c^{(0)} = \{c^{(0)}_1, \dots c^{(0)}_K\}\)</span> for each cluster <span class="math inline">\(C = \{C_1, \dots C_K\}\)</span>. Then each element <span class="math inline">\(x\)</span> is assigned to the closest centroid <span class="math inline">\(c_i\)</span>, and the points assigned to the same centroid forms a cluster <span class="math inline">\(C_i\)</span>. The centroid of each cluster is then updated based on the points that belong to the cluster. This process continues iteratively until no points change cluster or the centroid remains the same with a certain error threshold <span class="math inline">\(c^{(i-1)} \approx c^{(i)}\)</span>. In the following paragraphs each step is described in detail.</p>
+<ul>
+<li><p>Chose initial centroid
+A careful choice of the initial centroids <span class="math inline">\(c^{(0)}\)</span> and number of clusters <span class="math inline">\(K\)</span> is the key to perform an effective clustering since the result is greatly depending on initial conditions. The centroids can be chosen by the user, can be picked randomly, chosen after multiple runs of the clustering algorithm or chosen after hierarchical clustering of a sample of point of the dataset.</p></li>
+<li><p>Create cluster
+For each element <span class="math inline">\(x\)</span> the proximity measure to all the centroids <span class="math inline">\(c_i\)</span> is computed, the element is then assigned to the relative cluster <span class="math inline">\(C_i\)</span>. The proximity measure quantifies the distance between an element and the centroid; different types of measures can be chosen regarding the type of elements to be analysed. The most widely used measure in K-means is Euclidean distance <span class="math inline">\(L_2 = dist(x,c_i)\)</span>.</p></li>
+<li><p>Update centroid
+Once the proximity measure is defined the clustering algorithm has to recompute the centroid, maximizing the similarities between cluster elements by minimizing of a objective function. Given the Euclidean distance as proximity measure the  can be used as objective function. It sums the error squared between an element and the closest centroid.
+<span class="math display">\[\begin{equation} \label{eq:SSE}
+SSE = \sum^K_{i = 1} \sum_{x \in C_i} dist(x,c_i)^2
+\end{equation}\]</span></p></li>
+</ul>
+<p>Given two clusters, the best clustering is the one that has the smallest  because it means that the points are closer to the centroid, and this better represents the cluster. It can be demonstrated that the centroid that minimises the  is the mean.</p>
+In Figure  a three steps K-means clustering is performed to a simple set of instances. At first glance in the data points is possible to distinguish three natural clusters so <span class="math inline">\(K=3\)</span> is chosen. User-defined centroids <span class="math inline">\(c^{(0)}\)</span> are represented with stars. It is possible to see how the algorithm shifts the initial centroids toward the centre of the respective cluster in the successive iterations.
+</div>
+<div id="hierarchical-clustering" class="section level3" number="5.1.4">
+<h3><span class="header-section-number">5.1.4</span> Hierarchical clustering</h3>
+<p>As already said, hierarchical clustering consists of creating a series of nested clusters. There are two basic approaches to address to hierarchical clustering. The first is the <em>agglomerative clustering</em> that consists of starting with single point clusters and then merge the closest pair of clusters. The second is <em>divisive clustering</em> that consists of starting with one unique cluster and then split the clusters. This kind of clustering can be graphically viewed though a dendogram which shows the cluster relationships and the merging order. In the following, only the agglomerative clustering is reviewed since is the technique used in this framework.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="unsupervised-learning.html#cb3-1" aria-hidden="true" tabindex="-1"></a>dist1 <span class="ot">&lt;-</span> <span class="fu">dist</span>(df_cluster[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])  </span></code></pre></div>
+<p>The basic agglomerative algorithm approach consists in defining a proximity measure, compute a proximity matrix for all the instances, merge the closest clusters and update the proximity matrix until only one cluster remains. The key of this algorithm lies in the definition of proximity measure; there are three possibilities:</p>
+<ul>
+<li><p><em>Single link or MIN</em>: the proximity is defined as the minimum distance between any of the two points of two different clusters;</p></li>
+<li><p><em>Complete link or MAX</em>: the proximity is defined as the maximum distance between any of the two points of two different clusters;</p></li>
+<li><p><em>Group average</em>: the proximity is defined as the average distance between all pairs of two different clusters</p></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="unsupervised-learning.html#cb4-1" aria-hidden="true" tabindex="-1"></a>hc_single <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist1, <span class="at">method =</span> <span class="st">&quot;single&quot;</span>)  </span>
+<span id="cb4-2"><a href="unsupervised-learning.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="unsupervised-learning.html#cb4-3" aria-hidden="true" tabindex="-1"></a>hc_complete <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist1, <span class="at">method =</span> <span class="st">&quot;complete&quot;</span>) </span>
+<span id="cb4-4"><a href="unsupervised-learning.html#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="unsupervised-learning.html#cb4-5" aria-hidden="true" tabindex="-1"></a>hc_group <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist1, <span class="at">method =</span> <span class="st">&quot;average&quot;</span>) </span>
+<span id="cb4-6"><a href="unsupervised-learning.html#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="unsupervised-learning.html#cb4-7" aria-hidden="true" tabindex="-1"></a>hc_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist1, <span class="at">method =</span> <span class="st">&quot;ward.D2&quot;</span>)</span></code></pre></div>
+<p>A simple example of single link clustering is visible in Figure . A set of six points in a 2D space are represented in the left side of the Figure. The single link agglomerative clustering defines as proximity measure the minimum distance between two points of two different clusters. The dendogram reported on the right shows that the first two points merged to create a cluster are p3-p6 and then p5-p2. The two resulting clusters are then merged, since the distance between p2 and p3 is less than the distance between any other point. Finally p4 is aggregated and followed by p1.</p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-5-1.png" width="50%" /><img src="bookdownproj_files/figure-html/unnamed-chunk-5-2.png" width="50%" /></p>
 </div>
 </div>
-<div id="arm" class="section level2">
-<h2><span class="header-section-number">4.2</span> ARM</h2>
+<div id="association-rule-mining" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Association rule mining</h2>
+<p>The goal of association pattern mining is to determine associations between groups of items within a transactional dataset. The most used way to evaluate the degree of association consist in calculating the frequency of set of items. This method was originally born in the context of market basket data in supermarkets and the traditional terminology derives from it. However the application of this kind of analysis is wide and embraces many sectors.</p>
+<div id="frequent-pattern-mining" class="section level3" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Frequent Pattern Mining</h3>
+<p>The frequent pattern mining problem is defined on a transaction database <span class="math inline">\(\mathcal{T}\)</span> containing <span class="math inline">\(n\)</span> transactions. A single transaction <span class="math inline">\(T_i\)</span> is denoted by a transaction id <span class="math inline">\(i\)</span> and contains a set of <span class="math inline">\(k\)</span> items called itemset <span class="math inline">\(I\)</span>. A <span class="math inline">\(k-itemset\)</span> is an itemset that contains exactly <span class="math inline">\(k\)</span> items. The group of all possible items is called universe of items <span class="math inline">\(U\)</span> and it is usually very large compares to a typical itemset.</p>
+<p>An example of transaction database is reported in table. The database <span class="math inline">\(\mathcal{T} = \{T_1,T_2,T_3,T_4,T_5\}\)</span> contains <span class="math inline">\(n=5\)</span> transactions. The universe of items is <span class="math inline">\(U = \{bread, butter, milk, eggs, yogurt, cheese\}\)</span> and contains 6 items, meaning that the transaction binary representation will be represented by a 6-digit binary number. Transaction <span class="math inline">\(T_1 = \{bread, milk, butter\}\)</span> contains <span class="math inline">\(k=3\)</span> items and is a 3-itemset and is binary represented by the sequence <span class="math inline">\(T_1 = \{110010\}\)</span>.</p>
+<pre><code>## Caricamento del pacchetto richiesto: Matrix</code></pre>
+<pre><code>## 
+## Caricamento pacchetto: &#39;arules&#39;</code></pre>
+<pre><code>## I seguenti oggetti sono mascherati da &#39;package:base&#39;:
+## 
+##     abbreviate, write</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+id
+</th>
+<th style="text-align:left;">
+Itemset
+</th>
+<th style="text-align:left;">
+Binary
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Bread, Butter, Milk
+</td>
+<td style="text-align:left;">
+110010
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Eggs,Milk,Yogurt
+</td>
+<td style="text-align:left;">
+000111
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+Bread, Cheese, Eggs, Milk
+</td>
+<td style="text-align:left;">
+101110
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+Eggs,Milk,Yogurt
+</td>
+<td style="text-align:left;">
+000111
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+Cheese, Milk, Yogurt
+</td>
+<td style="text-align:left;">
+001011
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frequent pattern mining relies basically on the frequency count of items. In particular support count is defined as the number of occurrence of an itemset within a transaction database. For example the support count for the itemset <span class="math inline">\(I = \{Eggs,Milk\}\)</span> in table is equal to 2.</p>
+<p>However the support count is an absolute metrics that does not take into consideration the relative frequency of the itemset in the whole dataset. A more robust metric is the support, defined as the fraction of the transactions in the database <span class="math inline">\(T = {T_1 \dots T_n }\)</span> that contain <span class="math inline">\(I\)</span> as a subset. The support of an itemset is denoted as <span class="math inline">\(sup(I)\)</span>. For example, the support of the itemset <span class="math inline">\(I = \{Eggs,Milk\}\)</span> in table is equal to <span class="math inline">\(sup(I) = 2/5 = 40%\)</span>.</p>
+<p>Itemset that are correlated will occur frequently together in transactions, this mean that they have a high support. Therefore the frequent itemset mining reduces to the task of finding all the set of items that have the requisite of minimum support, called <span class="math inline">\(minsup\)</span>. The number of frequent itemsets is very sensible to the minimum support, which is crucial to obtain a meaningful size of frequent itemsets.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="unsupervised-learning.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a_list &lt;- list(</span></span>
+<span id="cb8-2"><a href="unsupervised-learning.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#       c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),</span></span>
+<span id="cb8-3"><a href="unsupervised-learning.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#       c(&quot;a&quot;,&quot;b&quot;),</span></span>
+<span id="cb8-4"><a href="unsupervised-learning.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#       c(&quot;a&quot;,&quot;b&quot;,&quot;d&quot;),</span></span>
+<span id="cb8-5"><a href="unsupervised-learning.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#       c(&quot;c&quot;,&quot;e&quot;),</span></span>
+<span id="cb8-6"><a href="unsupervised-learning.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#       c(&quot;a&quot;,&quot;b&quot;,&quot;d&quot;,&quot;e&quot;)</span></span>
+<span id="cb8-7"><a href="unsupervised-learning.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#       )</span></span>
+<span id="cb8-8"><a href="unsupervised-learning.html#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-9"><a href="unsupervised-learning.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ## set transaction names</span></span>
+<span id="cb8-10"><a href="unsupervised-learning.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># names(a_list) &lt;- paste(&quot;Tr&quot;,c(1:5), sep = &quot;&quot;)</span></span>
+<span id="cb8-11"><a href="unsupervised-learning.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># a_list</span></span>
+<span id="cb8-12"><a href="unsupervised-learning.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-13"><a href="unsupervised-learning.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ## coerce into transactions</span></span>
+<span id="cb8-14"><a href="unsupervised-learning.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># trans1 &lt;- as(a_list, &quot;transactions&quot;)</span></span>
+<span id="cb8-15"><a href="unsupervised-learning.html#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-16"><a href="unsupervised-learning.html#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># ## analyze transactions</span></span>
+<span id="cb8-17"><a href="unsupervised-learning.html#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(trans1)</span></span>
+<span id="cb8-18"><a href="unsupervised-learning.html#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># image(trans1)</span></span>
+<span id="cb8-19"><a href="unsupervised-learning.html#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-20"><a href="unsupervised-learning.html#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-21"><a href="unsupervised-learning.html#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># df_transactional &lt;- data.frame(I = df_transactional_example$Itemset)</span></span>
+<span id="cb8-22"><a href="unsupervised-learning.html#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># trans = as(df_transactional, &quot;transactions&quot;)</span></span>
+<span id="cb8-23"><a href="unsupervised-learning.html#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-24"><a href="unsupervised-learning.html#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># kableExtra::kable(inspect(trans))</span></span>
+<span id="cb8-25"><a href="unsupervised-learning.html#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-26"><a href="unsupervised-learning.html#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># support(&quot;{Milk}&quot;, trans)</span></span>
+<span id="cb8-27"><a href="unsupervised-learning.html#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-28"><a href="unsupervised-learning.html#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co"># frequentItems &lt;- eclat (trans) # calculates support for frequent items</span></span>
+<span id="cb8-29"><a href="unsupervised-learning.html#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect(frequentItems)</span></span></code></pre></div>
+</div>
+<div id="association-rule-generation" class="section level3" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Association rule generation</h3>
+<p>Frequent itemsets can be used to generate association rules, with the use of a measure known as the confidence. The confidence of a rule <span class="math inline">\(X \rightarrow Y\)</span> is the conditional probability that a transaction <span class="math inline">\(T_i\)</span> contains the set of items <span class="math inline">\(Y\)</span> (consequent), given that it contains the set <span class="math inline">\(X\)</span> (antecedent). This probability is estimated by dividing the support of itemset <span class="math inline">\(X \cup Y\)</span> with that of itemset <span class="math inline">\(X\)</span>.
+<span class="math display">\[\begin{equation}
+  conf(X \rightarrow Y) = \frac{sup(X \cup Y)}{sup(X)}
+\end{equation}\]</span></p>
+<p>For example, referring to table, by setting <span class="math inline">\(X = \{Eggs,Milk\}\)</span> and <span class="math inline">\(Y = \{Eggs,Milk,Yogurt\}\)</span>, given that the support is respectively <span class="math inline">\(sup(x) = 0.6\)</span> and <span class="math inline">\(sup(x) = 0.4\)</span>, the confidence of the rule <span class="math inline">\(X \rightarrow Y\)</span> is <span class="math inline">\(0.4*0.6=2/3\)</span>. As in the case of support, a minimum confidence threshold <span class="math inline">\(minconf\)</span> can be used to generate the most relevant association rules.</p>
+</div>
+<div id="frequent-itemset-mining-algorithms" class="section level3" number="5.2.3">
+<h3><span class="header-section-number">5.2.3</span> Frequent Itemset Mining Algorithms</h3>
+<div id="brute-force-algorithms" class="section level4" number="5.2.3.1">
+<h4><span class="header-section-number">5.2.3.1</span> Brute Force Algorithms</h4>
+</div>
+<div id="the-apriori-algorithm" class="section level4" number="5.2.3.2">
+<h4><span class="header-section-number">5.2.3.2</span> The Apriori Algorithm</h4>
+</div>
+<div id="enumeration-tree-algorithms" class="section level4" number="5.2.3.3">
+<h4><span class="header-section-number">5.2.3.3</span> Enumeration-Tree Algorithms</h4>
+<p>Some user-defined parameters (confidence support and lift) have to be set, in order to evaluate the significance of the obtained rule. A domain expert sets those parameters according to each particular case.</p>
+<p>The  is calculated as the intersection between the antecedent <span class="math inline">\(A\)</span> and consequence <span class="math inline">\(B\)</span>, expressing the co-occurrence of the two events:
+<span class="math display">\[\begin{equation}
+\text{supp} (A \Rightarrow B) = P(A \cap B)
+\end{equation}\]</span></p>
+<p>The  is defined as the conditional probability between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, it gives the probability of the consequent event in all baskets containing the antecedent:
+<span class="math display">\[\begin{equation}
+\text{conf}(A  \Rightarrow  B) = P(A|B)
+\end{equation}\]</span></p>
+<p>The  is the ratio between the confidence and support and gives the correlation between the conditional probability of <span class="math inline">\(B\)</span> and the probability of <span class="math inline">\(B\)</span> without assumptions.
+<span class="math display">\[\begin{equation}
+\text{lift}(A  \Rightarrow  B) = \frac{P(A|B)}{P(B)}
+\end{equation}\]</span></p>
+<p>When <span class="math inline">\(\text{lift} &gt;1\)</span> it means that is more probable that <span class="math inline">\(B\)</span> is correlated with <span class="math inline">\(A\)</span> while if <span class="math inline">\(\text{lift} &lt;1\)</span> it means negative correlations, if <span class="math inline">\(\text{lift} =1\)</span> there is no correlation at all. This parameter is particularly important since allows to select the most interesting rules .</p>
 
+</div>
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Tan2019a7" class="csl-entry">
+Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <span>“<span class="nocase">Cluster Analysis: Basic Concepts, and Algorithms</span>.”</span> <em>Introduction to Data Mining</em>, 526.
 </div>
 </div>
             </section>
@@ -251,7 +574,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -264,12 +586,13 @@ gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": true,
-"facebook": false,
+"facebook": true,
 "twitter": true,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {
@@ -278,7 +601,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/master/04_Unsupervised_learning.Rmd",
+"link": "https://github.com/RobertoChiosa/APPUNTI/master/05_Unsupervised_learning.Rmd",
 "text": "Suggest an edit"
 },
 "history": {
@@ -286,13 +609,18 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/blob/master/04_Unsupervised_learning.Rmd",
+"link": "https://github.com/RobertoChiosa/APPUNTI/blob/master/05_Unsupervised_learning.Rmd",
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection",
-"download": ["pdf", "epub"]
+"download": ["pdf", "epub"],
+"scroll_highlight": true
 }
 });
 });

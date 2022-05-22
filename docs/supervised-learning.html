@@ -4,27 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 supervised learning | Data mining methods for building energy data</title>
-  <meta name="description" content="Chapter 5 supervised learning | Data mining methods for building energy data" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <title>Chapter 6 Supervised learning | Data mining methods for building energy data</title>
+  <meta name="description" content="Chapter 6 Supervised learning | Data mining methods for building energy data" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 supervised learning | Data mining methods for building energy data" />
+  <meta property="og:title" content="Chapter 6 Supervised learning | Data mining methods for building energy data" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:image" content="images/logo-black.png" />
+  <meta property="og:image" content="/images/logo-black.png" />
   
   <meta name="github-repo" content="https://github.com/RobertoChiosa/APPUNTI" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 supervised learning | Data mining methods for building energy data" />
+  <meta name="twitter:title" content="Chapter 6 Supervised learning | Data mining methods for building energy data" />
   
   
-  <meta name="twitter:image" content="images/logo-black.png" />
-
-<meta name="author" content="Roberto Chiosa" />
+  <meta name="twitter:image" content="/images/logo-black.png" />
 
 
-<meta name="date" content="2021-01-12" />
+
+<meta name="date" content="2022-01-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +31,10 @@
   
   
 <link rel="prev" href="unsupervised-learning.html"/>
-<link rel="next" href="appendix-a.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="next" href="aws.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,81 +50,11 @@
 
 
 
-
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
-<script src="libs/d3-4.10.2/d3.min.js"></script>
-<script src="libs/forceNetwork-binding-0.4/forceNetwork.js"></script>
-<link href="libs/collapsibleTree-0.1.6/collapsibleTree.css" rel="stylesheet" />
-<script src="libs/collapsibleTree-binding-0.1.7/collapsibleTree.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
-<style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -141,63 +72,117 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Data mining methods for building energy data</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Author</a></li>
-<li class="chapter" data-level="1" data-path="building-related-data.html"><a href="building-related-data.html"><i class="fa fa-check"></i><b>1</b> Building related data</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="building-related-data.html"><a href="building-related-data.html"><i class="fa fa-check"></i><b>1</b> Building related data</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="building-related-data.html"><a href="building-related-data.html#influencing-variables"><i class="fa fa-check"></i><b>1.1</b> influencing variables</a></li>
 <li class="chapter" data-level="1.2" data-path="building-related-data.html"><a href="building-related-data.html#time-series"><i class="fa fa-check"></i><b>1.2</b> Time series</a></li>
-<li class="chapter" data-level="1.3" data-path="building-related-data.html"><a href="building-related-data.html#visualizations"><i class="fa fa-check"></i><b>1.3</b> Visualizations</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="building-related-data.html"><a href="building-related-data.html#sec:boxplots"><i class="fa fa-check"></i><b>1.3.1</b> Box plots</a></li>
-<li class="chapter" data-level="1.3.2" data-path="building-related-data.html"><a href="building-related-data.html#scatter-plots"><i class="fa fa-check"></i><b>1.3.2</b> scatter plots</a></li>
-<li class="chapter" data-level="1.3.3" data-path="building-related-data.html"><a href="building-related-data.html#carpet-plots"><i class="fa fa-check"></i><b>1.3.3</b> carpet plots</a></li>
-<li class="chapter" data-level="1.3.4" data-path="building-related-data.html"><a href="building-related-data.html#calendar-plots"><i class="fa fa-check"></i><b>1.3.4</b> calendar plots</a></li>
-<li class="chapter" data-level="1.3.5" data-path="building-related-data.html"><a href="building-related-data.html#network"><i class="fa fa-check"></i><b>1.3.5</b> Network</a></li>
-<li class="chapter" data-level="1.3.6" data-path="building-related-data.html"><a href="building-related-data.html#tree"><i class="fa fa-check"></i><b>1.3.6</b> tree</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualization.html"><a href="data-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="2.0.1" data-path="data-visualization.html"><a href="data-visualization.html#sec:boxplots"><i class="fa fa-check"></i><b>2.0.1</b> Box plots</a></li>
+<li class="chapter" data-level="2.0.2" data-path="data-visualization.html"><a href="data-visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.0.2</b> scatter plots</a></li>
+<li class="chapter" data-level="2.0.3" data-path="data-visualization.html"><a href="data-visualization.html#carpet-plots"><i class="fa fa-check"></i><b>2.0.3</b> carpet plots</a></li>
+<li class="chapter" data-level="2.0.4" data-path="data-visualization.html"><a href="data-visualization.html#calendar-plots"><i class="fa fa-check"></i><b>2.0.4</b> calendar plots</a></li>
+<li class="chapter" data-level="2.0.5" data-path="data-visualization.html"><a href="data-visualization.html#network"><i class="fa fa-check"></i><b>2.0.5</b> Network</a></li>
+<li class="chapter" data-level="2.0.6" data-path="data-visualization.html"><a href="data-visualization.html#tree"><i class="fa fa-check"></i><b>2.0.6</b> tree</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>3</b> Data cleaning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inconsistences"><i class="fa fa-check"></i><b>3.1</b> Inconsistences</a></li>
+<li class="chapter" data-level="3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#outliers"><i class="fa fa-check"></i><b>3.2</b> Outliers</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inter-quartile-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.1</b> Inter-quartile method for punctual outlier identification</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#z-score-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.2</b> Z-score method for punctual outlier identification</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#missing-values"><i class="fa fa-check"></i><b>3.3</b> Missing values</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#global-constant-method"><i class="fa fa-check"></i><b>3.3.1</b> Global constant method</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#local-constant-method"><i class="fa fa-check"></i><b>3.3.2</b> Local constant method</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#moving-average"><i class="fa fa-check"></i><b>3.3.3</b> Moving Average</a></li>
+<li class="chapter" data-level="3.3.4" data-path="data-cleaning.html"><a href="data-cleaning.html#linear-interpolation-method"><i class="fa fa-check"></i><b>3.3.4</b> Linear interpolation method</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>2</b> Data cleaning</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inconsistences"><i class="fa fa-check"></i><b>2.1</b> Inconsistences</a></li>
-<li class="chapter" data-level="2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#outliers"><i class="fa fa-check"></i><b>2.2</b> Outliers</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inter-quartile-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>2.2.1</b> Inter-quartile method for punctual outlier identification</a></li>
-<li class="chapter" data-level="2.2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#z-score-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>2.2.2</b> Z-score method for punctual outlier identification</a></li>
+<li class="chapter" data-level="4" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-transformation.html"><a href="data-transformation.html#data-scaling"><i class="fa fa-check"></i><b>4.1</b> data scaling</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="data-transformation.html"><a href="data-transformation.html#max-scaling"><i class="fa fa-check"></i><b>4.1.1</b> Max scaling</a></li>
+<li class="chapter" data-level="4.1.2" data-path="data-transformation.html"><a href="data-transformation.html#min-max-scaling"><i class="fa fa-check"></i><b>4.1.2</b> Min Max scaling</a></li>
+<li class="chapter" data-level="4.1.3" data-path="data-transformation.html"><a href="data-transformation.html#normalization"><i class="fa fa-check"></i><b>4.1.3</b> normalization</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="data-cleaning.html"><a href="data-cleaning.html#missing-values"><i class="fa fa-check"></i><b>2.3</b> Missing values</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#global-constant-method"><i class="fa fa-check"></i><b>2.3.1</b> Global constant method</a></li>
-<li class="chapter" data-level="2.3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#local-constant-method"><i class="fa fa-check"></i><b>2.3.2</b> Local constant method</a></li>
-<li class="chapter" data-level="2.3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#moving-average"><i class="fa fa-check"></i><b>2.3.3</b> Moving Average</a></li>
-<li class="chapter" data-level="2.3.4" data-path="data-cleaning.html"><a href="data-cleaning.html#linear-interpolation-method"><i class="fa fa-check"></i><b>2.3.4</b> Linear interpolation method</a></li>
+<li class="chapter" data-level="4.2" data-path="data-transformation.html"><a href="data-transformation.html#data-type-transformation-aggregation"><i class="fa fa-check"></i><b>4.2</b> data type transformation aggregation</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="data-transformation.html"><a href="data-transformation.html#equally-width-bins"><i class="fa fa-check"></i><b>4.2.1</b> equally width bins</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-transformation.html"><a href="data-transformation.html#equally-frequency-bins"><i class="fa fa-check"></i><b>4.2.2</b> equally frequency bins</a></li>
+<li class="chapter" data-level="4.2.3" data-path="data-transformation.html"><a href="data-transformation.html#integer-encoding"><i class="fa fa-check"></i><b>4.2.3</b> integer encoding</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-transformation.html"><a href="data-transformation.html#data-reduction"><i class="fa fa-check"></i><b>4.3</b> data reduction</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="data-transformation.html"><a href="data-transformation.html#piecawise-aggregate-approximation-paa"><i class="fa fa-check"></i><b>4.3.1</b> Piecawise Aggregate Approximation (PAA)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-segmentation"><i class="fa fa-check"></i><b>4.3.2</b> data segmentation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="data-transformation.html"><a href="data-transformation.html#visualization"><i class="fa fa-check"></i><b>4.4</b> Visualization</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#partitive-clustering"><i class="fa fa-check"></i><b>5.1.1</b> Partitive clustering</a></li>
+<li class="chapter" data-level="5.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#k-means-clustering"><i class="fa fa-check"></i><b>5.1.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.1.3</b> Hierarchical clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#association-rule-mining"><i class="fa fa-check"></i><b>5.2</b> Association rule mining</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#frequent-pattern-mining"><i class="fa fa-check"></i><b>5.2.1</b> Frequent Pattern Mining</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#association-rule-generation"><i class="fa fa-check"></i><b>5.2.2</b> Association rule generation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#frequent-itemset-mining-algorithms"><i class="fa fa-check"></i><b>5.2.3</b> Frequent Itemset Mining Algorithms</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> data transformation</a><ul>
-<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#data-scaling"><i class="fa fa-check"></i><b>3.1</b> data scaling</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="data-transformation.html"><a href="data-transformation.html#max-scaling"><i class="fa fa-check"></i><b>3.1.1</b> max scaling</a></li>
-<li class="chapter" data-level="3.1.2" data-path="data-transformation.html"><a href="data-transformation.html#min-max"><i class="fa fa-check"></i><b>3.1.2</b> min max</a></li>
-<li class="chapter" data-level="3.1.3" data-path="data-transformation.html"><a href="data-transformation.html#normalization"><i class="fa fa-check"></i><b>3.1.3</b> normalization</a></li>
+<li class="chapter" data-level="6" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>6</b> Supervised learning</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="supervised-learning.html"><a href="supervised-learning.html#classification"><i class="fa fa-check"></i><b>6.1</b> Classification</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#decision-trees"><i class="fa fa-check"></i><b>6.1.1</b> Decision trees</a></li>
+<li class="chapter" data-level="6.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#rule-based-classification"><i class="fa fa-check"></i><b>6.1.2</b> Rule-based classification</a></li>
+<li class="chapter" data-level="6.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#associative-classification"><i class="fa fa-check"></i><b>6.1.3</b> Associative classification</a></li>
+<li class="chapter" data-level="6.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forest-classifier"><i class="fa fa-check"></i><b>6.1.4</b> Random Forest Classifier</a></li>
+<li class="chapter" data-level="6.1.5" data-path="supervised-learning.html"><a href="supervised-learning.html#neural-networks"><i class="fa fa-check"></i><b>6.1.5</b> Neural Networks</a></li>
+<li class="chapter" data-level="6.1.6" data-path="supervised-learning.html"><a href="supervised-learning.html#bayesian-classification"><i class="fa fa-check"></i><b>6.1.6</b> Bayesian Classification</a></li>
+<li class="chapter" data-level="6.1.7" data-path="supervised-learning.html"><a href="supervised-learning.html#support-vector-machines-svm"><i class="fa fa-check"></i><b>6.1.7</b> Support Vector Machines (SVM)</a></li>
+<li class="chapter" data-level="6.1.8" data-path="supervised-learning.html"><a href="supervised-learning.html#support-vector-machines"><i class="fa fa-check"></i><b>6.1.8</b> Support Vector Machines</a></li>
+<li class="chapter" data-level="6.1.9" data-path="supervised-learning.html"><a href="supervised-learning.html#k-nearest-neighbor"><i class="fa fa-check"></i><b>6.1.9</b> K-Nearest Neighbor</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-type-transformation-aggregation"><i class="fa fa-check"></i><b>3.2</b> data type transformation aggregation</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="data-transformation.html"><a href="data-transformation.html#equally-width-bins"><i class="fa fa-check"></i><b>3.2.1</b> equally width bins</a></li>
-<li class="chapter" data-level="3.2.2" data-path="data-transformation.html"><a href="data-transformation.html#equally-frequency-bins"><i class="fa fa-check"></i><b>3.2.2</b> equally frequency bins</a></li>
-<li class="chapter" data-level="3.2.3" data-path="data-transformation.html"><a href="data-transformation.html#integer-encoding"><i class="fa fa-check"></i><b>3.2.3</b> integer encoding</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#data-reduction"><i class="fa fa-check"></i><b>3.3</b> data reduction</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="data-transformation.html"><a href="data-transformation.html#piecawise-aggregate-approximation-paa"><i class="fa fa-check"></i><b>3.3.1</b> Piecawise Aggregate Approximation (PAA)</a></li>
-<li class="chapter" data-level="3.3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-segmentation"><i class="fa fa-check"></i><b>3.3.2</b> data segmentation</a></li>
+<li class="chapter" data-level="7" data-path="aws.html"><a href="aws.html"><i class="fa fa-check"></i><b>7</b> AWS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="aws.html"><a href="aws.html#classification-1"><i class="fa fa-check"></i><b>7.1</b> classification</a></li>
+<li class="chapter" data-level="7.2" data-path="aws.html"><a href="aws.html#regression"><i class="fa fa-check"></i><b>7.2</b> regression</a></li>
+<li class="chapter" data-level="7.3" data-path="aws.html"><a href="aws.html#forecasting"><i class="fa fa-check"></i><b>7.3</b> forecasting</a></li>
+<li class="chapter" data-level="7.4" data-path="aws.html"><a href="aws.html#benchmarking"><i class="fa fa-check"></i><b>7.4</b> benchmarking</a></li>
+<li class="chapter" data-level="7.5" data-path="aws.html"><a href="aws.html#artificial-neural-network"><i class="fa fa-check"></i><b>7.5</b> artificial neural network</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#visualization"><i class="fa fa-check"></i><b>3.4</b> Visualization</a></li>
+<li class="chapter" data-level="8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html"><i class="fa fa-check"></i><b>8</b> Machine Learning Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#classification-metrics"><i class="fa fa-check"></i><b>8.1</b> Classification Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#confusion-metrics"><i class="fa fa-check"></i><b>8.1.1</b> Confusion metrics</a></li>
+<li class="chapter" data-level="8.1.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#accuracy"><i class="fa fa-check"></i><b>8.1.2</b> Accuracy</a></li>
+<li class="chapter" data-level="8.1.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#precision"><i class="fa fa-check"></i><b>8.1.3</b> Precision</a></li>
+<li class="chapter" data-level="8.1.4" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#recall"><i class="fa fa-check"></i><b>8.1.4</b> Recall</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>4</b> unsupervised learning</a><ul>
-<li class="chapter" data-level="4.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>4.1</b> clustering</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#partitive"><i class="fa fa-check"></i><b>4.1.1</b> partitive</a></li>
-<li class="chapter" data-level="4.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical"><i class="fa fa-check"></i><b>4.1.2</b> hierarchical</a></li>
-<li class="chapter" data-level="4.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#density"><i class="fa fa-check"></i><b>4.1.3</b> density</a></li>
+<li class="chapter" data-level="8.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#regression-metrics"><i class="fa fa-check"></i><b>8.2</b> Regression Metrics</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-squared-error-mse"><i class="fa fa-check"></i><b>8.2.1</b> Mean Squared Error (MSE)</a></li>
+<li class="chapter" data-level="8.2.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-error-rmse"><i class="fa fa-check"></i><b>8.2.2</b> Root Mean Squared Error (RMSE)</a></li>
+<li class="chapter" data-level="8.2.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-percentage-error-rmspe"><i class="fa fa-check"></i><b>8.2.3</b> Root Mean Squared Percentage Error (RMSPE)</a></li>
+<li class="chapter" data-level="8.2.4" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-absolute-error-mae"><i class="fa fa-check"></i><b>8.2.4</b> Mean Absolute Error (MAE)</a></li>
+<li class="chapter" data-level="8.2.5" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-absolute-percentage-error-mape"><i class="fa fa-check"></i><b>8.2.5</b> Mean Absolute Percentage Error (MAPE)</a></li>
+<li class="chapter" data-level="8.2.6" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#median-absolute-percentage-error-medianape"><i class="fa fa-check"></i><b>8.2.6</b> Median Absolute Percentage Error (MedianAPE)</a></li>
+<li class="chapter" data-level="8.2.7" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-absolute-error-rae"><i class="fa fa-check"></i><b>8.2.7</b> Root Absolute Error (RAE)</a></li>
+<li class="chapter" data-level="8.2.8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#r2-r2_score"><i class="fa fa-check"></i><b>8.2.8</b> R2 (R2_Score)</a></li>
+<li class="chapter" data-level="8.2.9" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#adjusted-r2-r2_score"><i class="fa fa-check"></i><b>8.2.9</b> Adjusted R2 (R2_Score)}</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#arm"><i class="fa fa-check"></i><b>4.2</b> ARM</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>5</b> supervised learning</a><ul>
-<li class="chapter" data-level="5.1" data-path="supervised-learning.html"><a href="supervised-learning.html#classification"><i class="fa fa-check"></i><b>5.1</b> classification</a></li>
-<li class="chapter" data-level="5.2" data-path="supervised-learning.html"><a href="supervised-learning.html#regression"><i class="fa fa-check"></i><b>5.2</b> regression</a></li>
-<li class="chapter" data-level="5.3" data-path="supervised-learning.html"><a href="supervised-learning.html#forecasting"><i class="fa fa-check"></i><b>5.3</b> forecasting</a></li>
-<li class="chapter" data-level="5.4" data-path="supervised-learning.html"><a href="supervised-learning.html#benchmarking"><i class="fa fa-check"></i><b>5.4</b> benchmarking</a></li>
-<li class="chapter" data-level="5.5" data-path="supervised-learning.html"><a href="supervised-learning.html#artificial-neural-network"><i class="fa fa-check"></i><b>5.5</b> artificial neural network</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a></li>
@@ -222,39 +207,98 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="supervised-learning" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> supervised learning</h1>
-<div id="classification" class="section level2">
-<h2><span class="header-section-number">5.1</span> classification</h2>
+<div id="supervised-learning" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Supervised learning</h1>
+<div id="classification" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Classification</h2>
+<p>Classification is the task to assign a class label to unlabeled data instances through a classifier model, providing prediction or description of a given data set.</p>
+<p>A general data set consists of a collection of instances or observations <span class="math inline">\(D = \{d_1, \dots, d_N\}\)</span>, each of them is characterised by a set of predictor attributes <span class="math inline">\(x\)</span> and a target attribute or class label <span class="math inline">\(y\)</span>. The classification model creates a relationship between the set of attributes <span class="math inline">\(x\)</span> (input) and the class label <span class="math inline">\(y\)</span> (output), in other words, can classify instances through the analysis of the predictive attributes. The model is created through an inductive learning algorithm using a <em>training set</em>, which is a data frame with attributes and labelled instances. Once the model is created, it is used on a <em>test set</em>, which is a data frame with attributes and unlabelled instances, in order to deduce the unknown class labels. The performance of the model can be evaluated through the comparison between the predicted labels and the real labels of the test set. A general description of the classification process is reported in Figure @ref(fig:classification_description).</p>
+<div class="figure" style="text-align: center">
+<img src="images/classification_description.png" alt="Classification process." width="100%" />
+<p class="caption">
+(#fig:classification_description)Classification process.
+</p>
 </div>
-<div id="regression" class="section level2">
-<h2><span class="header-section-number">5.2</span> regression</h2>
+<div id="decision-trees" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Decision trees</h3>
+<p>The tree classifier is the most commonly used classification model thanks to its understandable graphical representation, an example is shown in Figure . Depending on the type of target attribute, discrete categorical or continuous numerical, the tree is called, respectively,  or . The tree consists of three kinds of nodes connected by branches:</p>
+<div id="hunts-algorithm" class="section level4" number="6.1.1.1">
+<h4><span class="header-section-number">6.1.1.1</span> Hunt’s algorithm</h4>
 </div>
-<div id="forecasting" class="section level2">
-<h2><span class="header-section-number">5.3</span> forecasting</h2>
+<div id="recursive-partitioning" class="section level4" number="6.1.1.2">
+<h4><span class="header-section-number">6.1.1.2</span> Recursive partitioning</h4>
+<p>The basic algorithm used to construct a decision tree is a recursive partitioning forward approach  which is used to create the so called .</p>
+<p>In the beginning, all the instances are contained in the root node. Then it is expanded by a binary split on an attribute that is chosen through an adequate splitting criterion. This process continues until a stopping criterion is satisfied. In the following paragraphs each step is described in detail.</p>
 </div>
-<div id="benchmarking" class="section level2">
-<h2><span class="header-section-number">5.4</span> benchmarking</h2>
+<div id="splitting-crieterion" class="section level4" number="6.1.1.3">
+<h4><span class="header-section-number">6.1.1.3</span> Splitting crieterion</h4>
+<p>It is the criteria to choose the attribute test condition for the binary splitting; it decides how the instances of the parent node should be distributed into the child nodes. This criterion tends to split instances in order to create purer child nodes in which most of the instances have the same class label. This criterion tends to maximise homogeneity at each split, yielding to locally optimum split.</p>
+<p>The impurity <span class="math inline">\(I(A)\)</span> measures how different the class labels are within the same node . It can be expressed as the sum on all the classes <span class="math inline">\(c\)</span> of a function of the relative frequency <span class="math inline">\(p\)</span> of instances belonging to a class <span class="math inline">\(i\)</span> contained in node <span class="math inline">\(A\)</span>.
+<span class="math display">\[\begin{equation} \label{eq:impurity}
+I(A) = \sum_{i=1}^c{f(p_{i,A})}
+\end{equation}\]</span></p>
+<p>The functions, or indeces, that can be used are various, the most used are the Gini index  and the entropy . Each of them is zero if the node is pure (contains only instances from one class $ p_{i,A} = 1$) and maximum if labels are equally partitioned.
+<span class="math display">\[\begin{gather}
+f_{Gini}= 1 - \sum_{i=1}^c{ p_{i,A}}^2 \label{eq:gini} \\
+f_{Entropy}=  - \sum_{i=1}^c{ p_{i,A} *\log_2(p_{i,A}) }  \label{eq:entropy}
+\end{gather}\]</span></p>
+<p>The variation of impurity <span class="math inline">\(\Delta{I}\)</span>, also known as purity-gain, between the parent and the child node is calculated to identify the best attribute condition for the split. The attribute that gives the higher impurity variation is selected.</p>
 </div>
-<div id="artificial-neural-network" class="section level2">
-<h2><span class="header-section-number">5.5</span> artificial neural network</h2>
+<div id="stopping-criterion" class="section level4" number="6.1.1.4">
+<h4><span class="header-section-number">6.1.1.4</span> Stopping criterion</h4>
+<p>It is the criterion chosen to stop the growth of the tree. The basic algorithm stops the growth only when the generated node has instances of the same label or the same attributes. Sometimes it is better to terminate the growth to avoid data fragmentation: when a leaf node contains a few data, and they are not enough statistically significant. Another reason for which a stopping criterion should be set is to avoid model overfitting: when the model learns the particular patterns in the test set, reducing test error, but fails to generalize or predict correctly, increasing test error. Stopping criteria are, for example, the minimum number of observation in each leaf node or the number of splits.</p>
+<p>Next to the stopping criterion, a complexity parameter <span class="math inline">\(c_p \in [0;1 ]\)</span>, which quantify the cost in complexity of the model when adding a new node, could be defined. By doing so, the full tree is constructed and then pruned: the higher the <span class="math inline">\(c_p\)</span> the smallest the tree (<span class="math inline">\(c_p=1\)</span> only root) while the lowest the <span class="math inline">\(c_p\)</span> the largest the tree (<span class="math inline">\(c_p=0\)</span> full tree). This parameter is calculated in the validation phase.</p>
+</div>
+<div id="validation" class="section level4" number="6.1.1.5">
+<h4><span class="header-section-number">6.1.1.5</span> Validation</h4>
+<p>This phase has the goal to test the generalization performance or the ability, of the prediction model, to perform on independent data.
+The most used method is the re-sampling method called k-fold ; it permits to estimate the test error and to select the appropriate level of flexibility for the model.</p>
+<p>It divides the dataset <span class="math inline">\(D\)</span> of size <span class="math inline">\(N\)</span> in <span class="math inline">\(k\)</span> folds of approximately equal size if <span class="math inline">\(k=N\)</span> this case is called . At each iteration, one of the folds <span class="math inline">\(k\)</span> is selected as the test set, while the others <span class="math inline">\(k-1\)</span> are used as train set. Once the model is trained and tested the test error is computed. This procedure is repeated for k times, and the overall error is computed as the mean of the single test errors. In this phase, is chosen the complexity parameter for which cross-validation error is minimized.</p>
+</div>
+<div id="globally-optimum-evolutionary-tree" class="section level4" number="6.1.1.6">
+<h4><span class="header-section-number">6.1.1.6</span> Globally optimum evolutionary tree</h4>
+<p>Another process that can be used to create a classification tree is the globally optimum evolutionary algorithm. The evolutionary tree algorithm is based on a stochastic algorithm that aims to construct a globally optimum classification model . This process randomly initializes the root node split, then at each iteration variation operators (i.e., split, prune, major split rule mutation, minor split rule mutation, crossover) are applied. The survivor is selected, and the process repeated until stopping criterion is satisfied. The advantage of this model is that it tends to offer higher accuracy in prediction than recursive partitioning algorithms while maintaining the same interpretable tree structure.</p>
+The main peculiarity of the globally optimum classification trees lies in its stochastic nature. At each iteration the algorithm applies to the model the following variation operators:
+<p>Those variation operators are randomly applied to the model following a probability distribution set by the user.</p>
+</div>
+</div>
+<div id="rule-based-classification" class="section level3" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Rule-based classification</h3>
+</div>
+<div id="associative-classification" class="section level3" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Associative classification</h3>
+</div>
+<div id="random-forest-classifier" class="section level3" number="6.1.4">
+<h3><span class="header-section-number">6.1.4</span> Random Forest Classifier</h3>
+</div>
+<div id="neural-networks" class="section level3" number="6.1.5">
+<h3><span class="header-section-number">6.1.5</span> Neural Networks</h3>
+</div>
+<div id="bayesian-classification" class="section level3" number="6.1.6">
+<h3><span class="header-section-number">6.1.6</span> Bayesian Classification</h3>
+</div>
+<div id="support-vector-machines-svm" class="section level3" number="6.1.7">
+<h3><span class="header-section-number">6.1.7</span> Support Vector Machines (SVM)</h3>
+</div>
+<div id="support-vector-machines" class="section level3" number="6.1.8">
+<h3><span class="header-section-number">6.1.8</span> Support Vector Machines</h3>
+</div>
+<div id="k-nearest-neighbor" class="section level3" number="6.1.9">
+<h3><span class="header-section-number">6.1.9</span> K-Nearest Neighbor</h3>
 
 </div>
 </div>
-
-
-
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="unsupervised-learning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="appendix-a.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="aws.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -267,12 +311,13 @@ gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": true,
-"facebook": false,
+"facebook": true,
 "twitter": true,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {
@@ -281,7 +326,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/master/05_Supervised_learning.Rmd",
+"link": "https://github.com/RobertoChiosa/APPUNTI/master/06_Supervised_learning.Rmd",
 "text": "Suggest an edit"
 },
 "history": {
@@ -289,13 +334,18 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/RobertoChiosa/APPUNTI/blob/master/05_Supervised_learning.Rmd",
+"link": "https://github.com/RobertoChiosa/APPUNTI/blob/master/06_Supervised_learning.Rmd",
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection",
-"download": ["pdf", "epub"]
+"download": ["pdf", "epub"],
+"scroll_highlight": true
 }
 });
 });

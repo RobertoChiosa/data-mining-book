@@ -1,4 +1,4 @@
-# data transformation
+# Data transformation
 
 rescaling
 
@@ -57,5 +57,114 @@ improve computational efficiency
 
 ### data segmentation
 The segmentation (or summarization) task aims at creating an accurate approximation of time series, by reducing its dimensionality while retaining its essential features.
+
+\section{Dimensionality reduction}
+
+Meter-level data are collected in so-called time series: a two-dimensional matrix where each row correspond to a single observation in time and is composed by one column containing the time and another containing the value of a given variable. The sampling frequency determines the time interval between two consecutive observations and for building application, it is usually in the order of minutes. The resulting high-dimensional time series is computationally expensive to store and almost unfeasible to analyse directly. Many dimensionality reduction techniques were proposed in the literature; one of the most promising is the \ac{SAX} and in particular its implementation \ac{ASAX}. In the following sections those two will be presented.
+
+\subsection{Symbolic Aggregate approXimation}
+
+The \acf{SAX} is a dimensionality reduction technique that allows time series compression while preserving its fundamental characteristics; this technique it was firstly introduced by \cite{Lin2007}. This process discretizes the original time series in sub-sequences, each of them is then converted into alphabetic symbols through an encoding process, and finally combined into a string. The resulting string is much shorter than the original time series and enables various data mining techniques while reducing the computational cost. The \ac{SAX} process is summarized in the following paragraphs.
+
+\subsubsection{Standardization}
+This process is the first and fundamental preprocessing step of the time series analysis because it allows the algorithm to focus on the structural features of the time-series instead of the amplitude-driven ones. A given time series $y(t)=\{y_1, \dots y_n\}$ of length $n$ with mean $\mu$ and standard deviation $\sigma$  is transformed into a new time series $Z(t) = \{Z_1, \dots Z_n\}$ of length $n$ with zero mean $\mu=0$ and unitary standard deviation $\sigma=1$ through the equation \eqref{eq:Zscore}.
+\begin{equation}\label{eq:Zscore}
+Z(t) = \frac{y(t)-\mu}{\sigma}
+\end{equation}
+This process allows simplifying the analysis through the use of Z-scores, which is a measure of the position of data and represents how many standard deviations it is far from the mean of a standard normal distribution $N(0,1)$. If the value is positive, the value lies above the mean; if negative it lies below. Z-scores allows to easily calculate the area under a normal Gaussian distribution and will be useful when dividing the distribution into equally probable areas.
+
+\subsubsection{Chunking}
+The standardized time series $Z(t) = \{Z_1, \dots Z_n\}$ of length $n$ is divided into $N$ non-overlapping sub-sequences, or chunks, $T = \{T_1, \dots T_N\}$ whose length is chosen on the specific context. Each sub-sequence is further divided into $W$ segments called time windows $\tau = \{\tau_1, \dots \tau_W\}$. The parameter $W$ is also called word size. During this process, it is possible to choose time windows with equal or different length, based on user preference. The tuning of the length of time windows can be performed with different machine learning algorithms and can be useful when the time series presents within the chunk different trends.
+
+\subsubsection{Feature extraction}
+In this process an aggregated numerical feature is calculated in the generic time window $\tau_i$ and this value is taken as representative of the data contained in it. Extracted aggregated features tends to underline some aspect of the time series while losing some other information. The analyst choses which feature is the most significant and whether one or more features are needed for the purpose of the study. The most used and known is the \ac{PAA} introduced by \cite{Keogh2001} which performs a constant approximation of the time series $Z(t)$ by replacing the values that fall into the same time window $\tau_i$ with their mean . This is the feature extracted in the classic \ac{SAX} process.
+
+\subsubsection{Encoding}
+The encoding consists in setting an alphabet size ($\alpha$) and assigning an alphabetic character to each time window, according to where the extracted numerical feature lies within a set of vertical breakpoints $\beta = \{\beta_1, … \beta_{\alpha-1} \}$ identified according to the feature distribution shape. These breakpoints are calculated in Z-score, according to the alphabet size and under the hypothesis that the time series can be approximated as Gaussian distribution. If so, it is possible to divide the area below the distribution into equiprobable regions, creating a breakpoints table or lookup table (see Table \ref{tab:breakpoints_table}). Finally, the encoding can be assigned for each window $\tau$, creating a word of length $W$ for the chunk $N$. The original numerical time series $y(t)$ of length $n$ is then transformed into a alphabetic string $Z(\alpha)$ of length $W*N$.
+\begin{table}[h]
+\caption{Breakpoints or lookup table according to alphabet size.}\label{tab:breakpoints_table}
+\centering
+\begin{tabular}{lSSSS}
+\toprule
+\multirow{2}*{ $\beta$ } 	& \multicolumn{4}{S}{{$\alpha$}} \\
+							\cmidrule(lr){2-5}
+                        		& 3   		& 4   			& 5 			& 6\\
+\midrule
+$\beta_1$            & -0.43 	& -0.67			& 	-0.84	& 	-0.97\\
+$\beta_2$         	& 0.43 	& 0.00 			&	 -0.25	& 	-0.43\\
+$\beta_3$         	& 				& 0.67 			&	 0.25		& 	0.00\\
+$\beta_4$         	& 				& 					&	 0.84		& 	0.43\\
+$\beta_5$         	& 				& 					&				& 	0.97\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In Figure \ref{fig:SAX_example} an example of \ac{SAX} is reported. A standarized time series $Z(t)$ with $n = 192$, shown in black, is divided into two chunks $T_i$ and $T_{i+1}$ of \SI{24}{ h} each. In this example, five time windows ($W=5$) of equal length are identified for each chunk and the alphabet size is set to five ($\alpha=5$), meaning that four breakpoints $\beta$ are identified through the lookup Table \ref{tab:breakpoints_table}. The Gaussian distribution is shown on the right side of the Figure in ligth blue and the \ac{SAX} breakpoints in dashed blue lines. The time series is then approximated through \ac{PAA} (red segments), and for each segment, the corresponding symbol is assigned. The original time series for the time window $T_{i+1}$ is converted from a numerical vector into an alphabetic string "adecb", reducing it from a 96-dimensional object in a 4-dimensional one.
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=11cm]{/Users/robi/Desktop/Tesi_Latex/Figures/SAX_example.png}
+	\caption[Example of SAX process]{ Example of SAX process applied on a standardized time series $Z(t)$. The parameters used are $T= \SI{24}{h}$, $W=5$, $\alpha=5$.}
+	\label{fig:SAX_example}
+\end{center}
+\end{figure}
+
+\subsection{Adaptive Symbolic Aggregate approXimation}\label{section:ASAX}
+The \acf{ASAX} algorithm is an implementation of the original \ac{SAX}, and was firstly introduced in \cite{Pham2010}. The main difference is that the breakpoints identification based on the hypotheses of equally probable regions of Gaussian distribution is rejected; this permits \ac{ASAX} to handle distributions different from standard normal which is the great limit of the original method.
+
+In this algorithm no standardization is needed, and the first step is the chunking as describes in the previous paragraph. The feature extraction is performed and then follows the encoding. The key difference between this algorithm and \ac{SAX} lies in the breakpoints identification. This process is handled through an adaptive method, based on K-means clustering \cite{Pham2010}. The iterative algorithm aims to find the distribution partition (i.e. breakpoints) that minimizes the clusters total representation error, which is the objective function of the K-means. 
+
+In the following the steps of the algorithm are explained. Since it is an iterative process, the generic iteration will be labeled with the index subscript $j$. Is assumed that the feature extracted is the mean value for each time window through a \ac{PAA} process.
+
+Given the \ac{PAA} array representation of the original time series, we denote by $x_n$ the generic $n^{th}$ \ac{PAA}  value. The starting point is the definition of the alphabet size $\alpha$, which correspond to the number of clusters $K$, and the initial breakpoints $\beta_i^{(0)}$ with $i=\{0,\dots,\alpha-1\}$, $\beta_0^{(0)}=-\infty$ and $\beta_{\alpha}^{(0)}=+\infty$. Those breakpoints are calculated with the hypotheses of normal distribution and divide the distribution into equally probable regions; they represent the initialized starting point.
+
+At each iteration $j$, the centroid $c^{(j)}_i$ between two consecutive breakpoints $[\beta^{(j-1)}_{i}, \beta^{(j-1)}_{i+1}) $ is calculated as the center of mass of all $N_i$ \ac{PAA}  points that fall between them.
+\begin{equation} \label{eq:centroid_asax}
+c^{(j)}_i= \frac{1}{N_i} \sum_{x \in [\beta^{(j-1)}_{i}, \beta^{(j-1)}_{i+1}] } x_n
+\end{equation}
+
+Then the new breakpoints $\beta^{(j)}_{i}$ are moved to the mean value between two consecutive centroids $c^{(j)}_i$ and $c^{(j)}_{i+1}$.
+\begin{equation} \label{eq:breakpoints_update_asax}
+\beta^{(j)}_{i} = \frac{c^{(j)}_i +  c^{(j)}_{i+1}}{2} 
+\end{equation}
+
+The total representation error \ac{RSS} is calculated as follows:
+\begin{equation} \label{eq:SSE_asax}
+RSS = \sum^K_{i = 1} \sum_{x \in [\beta^{(j-1)}_{i}, \beta^{(j-1)}_{i+1}] } (x_n-c_i^{(j)})^2
+\end{equation}
+
+Then the relative error $\epsilon^{(j)}$ of the \ac{RSS} is compared with a user-defined tolerance $\bar{\epsilon}$. If the condition \ref{eq:error_asax} is satisfied the algorithm keeps running otherwise it stops.
+\begin{equation}\label{eq:error_asax}
+\epsilon^{(j)} = \frac{RSS^{(j-1)} - RSS^{(j)}}{RSS^{(j-1)}} > \bar{\epsilon}
+\end{equation}
+
+
+
+In Figure  \ref{fig:SAX_example}  an example of \ac{ASAX} is reported. A time series $y(t)$ with $n=192$, shown in black, is divided into two chunks $T_i$ and $T_{i+1}$ of \SI{24}{ h}  each. In this example, five time windows $W=5$)  of inequal length are identified for each chunk and the alphabet size is set to five ($\alpha=5$), meaning that four breakpoints $\beta$ are identified. The time series distribution is shown on the right side of the Figure in red and the \ac{ASAX} breakpoints in dashed blue lines. Looking at the distribution is easy to understand how classic \ac{SAX} would result in a consistent loss of information by assuming a normal Gaussian distribution.  The time series is then approximated through \ac{PAA} (red segments), and for each segment, the corresponding symbol is assigned. The original time series for the time window $T_{i+1}$ is converted from a numerical vector into an alphabetic string “abdca”, reducing it from a 96-dimensional object in a 4-dimensional one.
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=11cm]{/Users/robi/Desktop/Tesi_Latex/Figures/ASAX_example.png}
+	\caption[Example of ASAX process]{ Example of ASAX process applied on a time series $y(t)$. The parameters used are $T= \SI{24}{h}$, $W=5$, $\alpha=5$.}
+	\label{fig:ASAX_example}
+\end{center}
+\end{figure}
+
+\subsubsection{Focus on feature extraction}
+
+One of the steps of \ac{SAX} is the choice of the aggregation feature to be extracted and encoded. As already said, this feature has to be carefully chosen, and the choice strongly depends on which aspect of the time series the analyst want to underline. The most used and known is the \ac{PAA} but many other statistical features can be extracted (variance, kurtosis, skewness) not only from the time domain but even from other domains such the frequency one \cite{Zhang2019a}. Others features representing essential characteristics of time series can be worth to be extracted; one of these is the trend angle \cite{Yu2019}. This feature is particularly effective in describing the time series trend, and it will be used in this work. Given a time series $y(t) = \{y_1, \dots y_n\}$ of length $n$ in a given time window $\tau = \{\tau_1, \dots \tau_W\}$, defined $\Delta p(t_1)$ and $\Delta p(t_n)$ the first order distance between the initial and final point with the time series mean $\bar{y}$, it is possible to define a trend triangle and trend angle as shown as in Figure \ref{fig:trend_angle}.
+\begin{enumerate}
+\item $\theta<0$ the trend is negative;
+\item $\theta<0$ the trend is positive;
+\item $\theta\approx 0$ the trend is almost stable.
+\end{enumerate}
+
+In the context of building this feature could be very useful in identifying rapidly growing or decreasing electrical loads, adding a remarkable information to the analysis.
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=\textwidth]{/Users/robi/Desktop/Tesi_Latex/Figures/trend_angle.png}
+	\caption[Definition of trend feature triangle and trend angle]{ Definition of trend feature triangle and trend angle for a generic time series $y(t)$. On the left side the time series (blue) and its mean value (red) within a given time window $\tau$, On the right side the trend triangle and the trend angle definition.}
+	\label{fig:trend_angle}
+\end{center}
+\end{figure}
+
 
 ## Visualization

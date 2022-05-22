@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Data mining methods for building energy data</title>
   <meta name="description" content="Data mining methods for building energy data" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Data mining methods for building energy data" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:image" content="images/logo-black.png" />
+  <meta property="og:image" content="/images/logo-black.png" />
   
   <meta name="github-repo" content="https://github.com/RobertoChiosa/APPUNTI" />
 
@@ -19,11 +19,11 @@
   <meta name="twitter:title" content="Data mining methods for building energy data" />
   
   
-  <meta name="twitter:image" content="images/logo-black.png" />
+  <meta name="twitter:image" content="/images/logo-black.png" />
 
 
 
-<meta name="date" content="2021-07-01" />
+<meta name="date" content="2022-01-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,9 @@
   
 
 <link rel="next" href="building-related-data.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,8 +50,9 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 
@@ -70,11 +73,13 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="1" data-path="building-related-data.html"><a href="building-related-data.html"><i class="fa fa-check"></i><b>1</b> Building related data</a><ul>
+<li class="chapter" data-level="1" data-path="building-related-data.html"><a href="building-related-data.html"><i class="fa fa-check"></i><b>1</b> Building related data</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="building-related-data.html"><a href="building-related-data.html#influencing-variables"><i class="fa fa-check"></i><b>1.1</b> influencing variables</a></li>
 <li class="chapter" data-level="1.2" data-path="building-related-data.html"><a href="building-related-data.html#time-series"><i class="fa fa-check"></i><b>1.2</b> Time series</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="data-visualization.html"><a href="data-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Visualization</a><ul>
+<li class="chapter" data-level="2" data-path="data-visualization.html"><a href="data-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Visualization</a>
+<ul>
 <li class="chapter" data-level="2.0.1" data-path="data-visualization.html"><a href="data-visualization.html#sec:boxplots"><i class="fa fa-check"></i><b>2.0.1</b> Box plots</a></li>
 <li class="chapter" data-level="2.0.2" data-path="data-visualization.html"><a href="data-visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.0.2</b> scatter plots</a></li>
 <li class="chapter" data-level="2.0.3" data-path="data-visualization.html"><a href="data-visualization.html#carpet-plots"><i class="fa fa-check"></i><b>2.0.3</b> carpet plots</a></li>
@@ -82,66 +87,93 @@
 <li class="chapter" data-level="2.0.5" data-path="data-visualization.html"><a href="data-visualization.html#network"><i class="fa fa-check"></i><b>2.0.5</b> Network</a></li>
 <li class="chapter" data-level="2.0.6" data-path="data-visualization.html"><a href="data-visualization.html#tree"><i class="fa fa-check"></i><b>2.0.6</b> tree</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>3</b> Data cleaning</a><ul>
+<li class="chapter" data-level="3" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>3</b> Data cleaning</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inconsistences"><i class="fa fa-check"></i><b>3.1</b> Inconsistences</a></li>
-<li class="chapter" data-level="3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#outliers"><i class="fa fa-check"></i><b>3.2</b> Outliers</a><ul>
+<li class="chapter" data-level="3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#outliers"><i class="fa fa-check"></i><b>3.2</b> Outliers</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="data-cleaning.html"><a href="data-cleaning.html#inter-quartile-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.1</b> Inter-quartile method for punctual outlier identification</a></li>
 <li class="chapter" data-level="3.2.2" data-path="data-cleaning.html"><a href="data-cleaning.html#z-score-method-for-punctual-outlier-identification"><i class="fa fa-check"></i><b>3.2.2</b> Z-score method for punctual outlier identification</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#missing-values"><i class="fa fa-check"></i><b>3.3</b> Missing values</a><ul>
+<li class="chapter" data-level="3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#missing-values"><i class="fa fa-check"></i><b>3.3</b> Missing values</a>
+<ul>
 <li class="chapter" data-level="3.3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#global-constant-method"><i class="fa fa-check"></i><b>3.3.1</b> Global constant method</a></li>
 <li class="chapter" data-level="3.3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#local-constant-method"><i class="fa fa-check"></i><b>3.3.2</b> Local constant method</a></li>
 <li class="chapter" data-level="3.3.3" data-path="data-cleaning.html"><a href="data-cleaning.html#moving-average"><i class="fa fa-check"></i><b>3.3.3</b> Moving Average</a></li>
 <li class="chapter" data-level="3.3.4" data-path="data-cleaning.html"><a href="data-cleaning.html#linear-interpolation-method"><i class="fa fa-check"></i><b>3.3.4</b> Linear interpolation method</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>4</b> data transformation</a><ul>
-<li class="chapter" data-level="4.1" data-path="data-transformation.html"><a href="data-transformation.html#data-scaling"><i class="fa fa-check"></i><b>4.1</b> data scaling</a><ul>
+<li class="chapter" data-level="4" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-transformation.html"><a href="data-transformation.html#data-scaling"><i class="fa fa-check"></i><b>4.1</b> data scaling</a>
+<ul>
 <li class="chapter" data-level="4.1.1" data-path="data-transformation.html"><a href="data-transformation.html#max-scaling"><i class="fa fa-check"></i><b>4.1.1</b> Max scaling</a></li>
 <li class="chapter" data-level="4.1.2" data-path="data-transformation.html"><a href="data-transformation.html#min-max-scaling"><i class="fa fa-check"></i><b>4.1.2</b> Min Max scaling</a></li>
 <li class="chapter" data-level="4.1.3" data-path="data-transformation.html"><a href="data-transformation.html#normalization"><i class="fa fa-check"></i><b>4.1.3</b> normalization</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="data-transformation.html"><a href="data-transformation.html#data-type-transformation-aggregation"><i class="fa fa-check"></i><b>4.2</b> data type transformation aggregation</a><ul>
+<li class="chapter" data-level="4.2" data-path="data-transformation.html"><a href="data-transformation.html#data-type-transformation-aggregation"><i class="fa fa-check"></i><b>4.2</b> data type transformation aggregation</a>
+<ul>
 <li class="chapter" data-level="4.2.1" data-path="data-transformation.html"><a href="data-transformation.html#equally-width-bins"><i class="fa fa-check"></i><b>4.2.1</b> equally width bins</a></li>
 <li class="chapter" data-level="4.2.2" data-path="data-transformation.html"><a href="data-transformation.html#equally-frequency-bins"><i class="fa fa-check"></i><b>4.2.2</b> equally frequency bins</a></li>
 <li class="chapter" data-level="4.2.3" data-path="data-transformation.html"><a href="data-transformation.html#integer-encoding"><i class="fa fa-check"></i><b>4.2.3</b> integer encoding</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="data-transformation.html"><a href="data-transformation.html#data-reduction"><i class="fa fa-check"></i><b>4.3</b> data reduction</a><ul>
+<li class="chapter" data-level="4.3" data-path="data-transformation.html"><a href="data-transformation.html#data-reduction"><i class="fa fa-check"></i><b>4.3</b> data reduction</a>
+<ul>
 <li class="chapter" data-level="4.3.1" data-path="data-transformation.html"><a href="data-transformation.html#piecawise-aggregate-approximation-paa"><i class="fa fa-check"></i><b>4.3.1</b> Piecawise Aggregate Approximation (PAA)</a></li>
 <li class="chapter" data-level="4.3.2" data-path="data-transformation.html"><a href="data-transformation.html#data-segmentation"><i class="fa fa-check"></i><b>4.3.2</b> data segmentation</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="data-transformation.html"><a href="data-transformation.html#visualization"><i class="fa fa-check"></i><b>4.4</b> Visualization</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>5</b> unsupervised learning</a><ul>
-<li class="chapter" data-level="5.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>5.1</b> clustering</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#partitive"><i class="fa fa-check"></i><b>5.1.1</b> partitive</a></li>
-<li class="chapter" data-level="5.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical"><i class="fa fa-check"></i><b>5.1.2</b> hierarchical</a></li>
-<li class="chapter" data-level="5.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#density"><i class="fa fa-check"></i><b>5.1.3</b> density</a></li>
+<li class="chapter" data-level="5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clusters-type"><i class="fa fa-check"></i><b>5.1.1</b> Clusters type</a></li>
+<li class="chapter" data-level="5.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering-algorithms"><i class="fa fa-check"></i><b>5.1.2</b> Clustering algorithms</a></li>
+<li class="chapter" data-level="5.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#k-means-clustering"><i class="fa fa-check"></i><b>5.1.3</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.1.4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.1.4</b> Hierarchical clustering</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#arm"><i class="fa fa-check"></i><b>5.2</b> ARM</a></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#association-rule-mining"><i class="fa fa-check"></i><b>5.2</b> Association rule mining</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#frequent-pattern-mining"><i class="fa fa-check"></i><b>5.2.1</b> Frequent Pattern Mining</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#association-rule-generation"><i class="fa fa-check"></i><b>5.2.2</b> Association rule generation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#frequent-itemset-mining-algorithms"><i class="fa fa-check"></i><b>5.2.3</b> Frequent Itemset Mining Algorithms</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>6</b> supervised learning</a><ul>
-<li class="chapter" data-level="6.1" data-path="supervised-learning.html"><a href="supervised-learning.html#classification"><i class="fa fa-check"></i><b>6.1</b> classification</a></li>
-<li class="chapter" data-level="6.2" data-path="supervised-learning.html"><a href="supervised-learning.html#regression"><i class="fa fa-check"></i><b>6.2</b> regression</a></li>
-<li class="chapter" data-level="6.3" data-path="supervised-learning.html"><a href="supervised-learning.html#forecasting"><i class="fa fa-check"></i><b>6.3</b> forecasting</a></li>
-<li class="chapter" data-level="6.4" data-path="supervised-learning.html"><a href="supervised-learning.html#benchmarking"><i class="fa fa-check"></i><b>6.4</b> benchmarking</a></li>
-<li class="chapter" data-level="6.5" data-path="supervised-learning.html"><a href="supervised-learning.html#artificial-neural-network"><i class="fa fa-check"></i><b>6.5</b> artificial neural network</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="aws.html"><a href="aws.html"><i class="fa fa-check"></i><b>7</b> AWS</a><ul>
+<li class="chapter" data-level="6" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>6</b> Supervised learning</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="supervised-learning.html"><a href="supervised-learning.html#classification"><i class="fa fa-check"></i><b>6.1</b> Classification</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#decision-trees"><i class="fa fa-check"></i><b>6.1.1</b> Decision trees</a></li>
+<li class="chapter" data-level="6.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#rule-based-classification"><i class="fa fa-check"></i><b>6.1.2</b> Rule-based classification</a></li>
+<li class="chapter" data-level="6.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#associative-classification"><i class="fa fa-check"></i><b>6.1.3</b> Associative classification</a></li>
+<li class="chapter" data-level="6.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forest-classifier"><i class="fa fa-check"></i><b>6.1.4</b> Random Forest Classifier</a></li>
+<li class="chapter" data-level="6.1.5" data-path="supervised-learning.html"><a href="supervised-learning.html#neural-networks"><i class="fa fa-check"></i><b>6.1.5</b> Neural Networks</a></li>
+<li class="chapter" data-level="6.1.6" data-path="supervised-learning.html"><a href="supervised-learning.html#bayesian-classification"><i class="fa fa-check"></i><b>6.1.6</b> Bayesian Classification</a></li>
+<li class="chapter" data-level="6.1.7" data-path="supervised-learning.html"><a href="supervised-learning.html#support-vector-machines-svm"><i class="fa fa-check"></i><b>6.1.7</b> Support Vector Machines (SVM)</a></li>
+<li class="chapter" data-level="6.1.8" data-path="supervised-learning.html"><a href="supervised-learning.html#support-vector-machines"><i class="fa fa-check"></i><b>6.1.8</b> Support Vector Machines</a></li>
+<li class="chapter" data-level="6.1.9" data-path="supervised-learning.html"><a href="supervised-learning.html#k-nearest-neighbor"><i class="fa fa-check"></i><b>6.1.9</b> K-Nearest Neighbor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="aws.html"><a href="aws.html"><i class="fa fa-check"></i><b>7</b> AWS</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="aws.html"><a href="aws.html#classification-1"><i class="fa fa-check"></i><b>7.1</b> classification</a></li>
-<li class="chapter" data-level="7.2" data-path="aws.html"><a href="aws.html#regression-1"><i class="fa fa-check"></i><b>7.2</b> regression</a></li>
-<li class="chapter" data-level="7.3" data-path="aws.html"><a href="aws.html#forecasting-1"><i class="fa fa-check"></i><b>7.3</b> forecasting</a></li>
-<li class="chapter" data-level="7.4" data-path="aws.html"><a href="aws.html#benchmarking-1"><i class="fa fa-check"></i><b>7.4</b> benchmarking</a></li>
-<li class="chapter" data-level="7.5" data-path="aws.html"><a href="aws.html#artificial-neural-network-1"><i class="fa fa-check"></i><b>7.5</b> artificial neural network</a></li>
+<li class="chapter" data-level="7.2" data-path="aws.html"><a href="aws.html#regression"><i class="fa fa-check"></i><b>7.2</b> regression</a></li>
+<li class="chapter" data-level="7.3" data-path="aws.html"><a href="aws.html#forecasting"><i class="fa fa-check"></i><b>7.3</b> forecasting</a></li>
+<li class="chapter" data-level="7.4" data-path="aws.html"><a href="aws.html#benchmarking"><i class="fa fa-check"></i><b>7.4</b> benchmarking</a></li>
+<li class="chapter" data-level="7.5" data-path="aws.html"><a href="aws.html#artificial-neural-network"><i class="fa fa-check"></i><b>7.5</b> artificial neural network</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html"><i class="fa fa-check"></i><b>8</b> Machine Learning Metrics</a><ul>
-<li class="chapter" data-level="8.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#classification-metrics"><i class="fa fa-check"></i><b>8.1</b> Classification Metrics</a><ul>
+<li class="chapter" data-level="8" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html"><i class="fa fa-check"></i><b>8</b> Machine Learning Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#classification-metrics"><i class="fa fa-check"></i><b>8.1</b> Classification Metrics</a>
+<ul>
 <li class="chapter" data-level="8.1.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#confusion-metrics"><i class="fa fa-check"></i><b>8.1.1</b> Confusion metrics</a></li>
 <li class="chapter" data-level="8.1.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#accuracy"><i class="fa fa-check"></i><b>8.1.2</b> Accuracy</a></li>
 <li class="chapter" data-level="8.1.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#precision"><i class="fa fa-check"></i><b>8.1.3</b> Precision</a></li>
 <li class="chapter" data-level="8.1.4" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#recall"><i class="fa fa-check"></i><b>8.1.4</b> Recall</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#regression-metrics"><i class="fa fa-check"></i><b>8.2</b> Regression Metrics</a><ul>
+<li class="chapter" data-level="8.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#regression-metrics"><i class="fa fa-check"></i><b>8.2</b> Regression Metrics</a>
+<ul>
 <li class="chapter" data-level="8.2.1" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#mean-squared-error-mse"><i class="fa fa-check"></i><b>8.2.1</b> Mean Squared Error (MSE)</a></li>
 <li class="chapter" data-level="8.2.2" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-error-rmse"><i class="fa fa-check"></i><b>8.2.2</b> Root Mean Squared Error (RMSE)</a></li>
 <li class="chapter" data-level="8.2.3" data-path="machine-learning-metrics.html"><a href="machine-learning-metrics.html#root-mean-squared-percentage-error-rmspe"><i class="fa fa-check"></i><b>8.2.3</b> Root Mean Squared Percentage Error (RMSPE)</a></li>
@@ -178,11 +210,12 @@
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">Data mining methods for building energy data</h1>
-<p class="author"><em>Roberto Chiosa</em></p>
+<p class="author multi-author"><em>Roberto Chiosa</em></p>
 <address class="author_afil">
-BAEDA Lab - Politecnico di Torino<br><a class="author_email" href="mailto:#"><a href="mailto:roberto.chiosa@polito.it" class="email">roberto.chiosa@polito.it</a></a>
+BAEDA Lab - Politecnico di Torino<br>
+<a class="author_email" href="mailto:#"><a href="mailto:roberto.chiosa@polito.it" class="email">roberto.chiosa@polito.it</a></a>
 </address>
-<p class="date"><em>2021-07-01</em></p>
+<p class="date"><em>2022-01-28</em></p>
 </div>
 <div id="introduction" class="section level1 unnumbered">
 <h1>Introduction</h1>
@@ -199,7 +232,6 @@ BAEDA Lab - Politecnico di Torino<br><a class="author_email" href="mailto:#"><a 
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -218,6 +250,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {
@@ -238,6 +271,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection",
 "download": ["pdf", "epub"],
